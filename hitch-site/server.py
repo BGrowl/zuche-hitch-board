@@ -87,6 +87,13 @@ except Exception:                                            # 兜底：缺文�
 
 _BYNAME = _by_name_index(_META)
 
+# 取车城市 → 还车城市的直线距离（本地坐标表 + 半正矢，运行期不联网）
+try:
+    from geo import distance as _distance
+except Exception:                                            # 兜底：缺文件则不出距离
+    def _distance(a, b):
+        return None
+
 # 云端推送：未配置凭据时安静跳过，不影响服务
 try:
     import push as _push
@@ -175,6 +182,7 @@ def slim(it):
         "est": str(it.get("estTotalPrice") if it.get("estTotalPrice") is not None else ""),
         "from": it.get("pickupCityName") or "",
         "to": it.get("returnCityName") or "",
+        "km": _distance(it.get("pickupCityName"), it.get("returnCityName")),  # 直线距离(km)；无坐标则 None
         "bd": it.get("beginDate") or "",
         "ed": it.get("endDate") or "",
         "days": it.get("limitTenancyDay") or "",

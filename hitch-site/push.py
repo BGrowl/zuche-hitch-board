@@ -533,9 +533,11 @@ def render_short(pairs, title=None):
     shown = pairs[:MP_ITEMS]
     segs = []
     for t, r in shown:
-        segs.append("%s %s ¥%s %s→%s"
+        seg = _dist_txt(r)
+        segs.append("%s %s ¥%s %s→%s%s"
                     % (TIER_NAME.get(t, ""), r.get("model") or "",
-                       r.get("price") or "-", r.get("from") or "", r.get("to") or ""))
+                       r.get("price") or "-", r.get("from") or "", r.get("to") or "",
+                       (" " + seg) if seg else ""))
     content = "；".join(segs)
     rest = len(pairs) - len(shown)
     if rest > 0:
@@ -543,6 +545,32 @@ def render_short(pairs, title=None):
     if len(content) > MP_FIELD_MAX:
         content = content[:MP_FIELD_MAX - 1] + "…"
     return title, content
+
+
+def _dist_txt(r):
+    """推送里的一段「距离·天数」标注，例如 `驾车761km·4天`。
+
+    距离优先用**驾车里程**（drive，OSRM 真实路网）；没有则退回直线（km）；
+    两者都没有就不显示。天数取 limitTenancyDay（接口字段 days）。
+    """
+    parts = []
+    try:
+        drive = int(r.get("drive") or 0)
+    except Exception:                                      # noqa: BLE001
+        drive = 0
+    if drive > 0:
+        parts.append("驾车%dkm" % drive)
+    else:
+        try:
+            km = int(r.get("km") or 0)
+        except Exception:                                  # noqa: BLE001
+            km = 0
+        if km > 0:
+            parts.append("直线%dkm" % km)
+    days = r.get("days")
+    if days not in (None, "", 0, "0"):
+        parts.append("%s天" % days)
+    return "·".join(parts)
 
 
 def _paginate(item_lines, head_fn, foot_lines, limit):
@@ -621,6 +649,9 @@ def render_text_paged(pairs, url="", limit=None, title=None):
         s = "%d. 【%s】 %s ¥%s %s" % (
             i, TIER_NAME.get(t, ""), r.get("model") or "", r.get("price") or "-",
             "%s→%s" % (r.get("from") or "", r.get("to") or ""))
+        seg = _dist_txt(r)
+        if seg:
+            s += " " + seg
         bd = (r.get("bd") or "").strip()
         if bd:
             s += " %s起" % bd
@@ -666,6 +697,9 @@ def render_md_paged(pairs, url="", title=None):
         route = "%s→%s" % (r.get("from") or "", r.get("to") or "")
         line = '%d. <font color="%s">%s</font> **%s** <font color="warning">¥%s</font> %s' % (
             i, color, TIER_NAME.get(t, ""), r.get("model") or "", price, route)
+        seg = _dist_txt(r)
+        if seg:
+            line += ' <font color="comment">%s</font>' % seg
         bd = (r.get("bd") or "").strip()
         if bd:
             line += ' <font color="comment">%s起</font>' % bd

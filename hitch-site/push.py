@@ -616,14 +616,23 @@ def _paginate(item_lines, head_fn, foot_lines, limit):
 
 
 def render_text_paged(pairs, url="", limit=None, title=None):
-    """企业微信 **text** 版正文：纯文本，**一台车一行、全部列出、不截断**。
+    """企业微信 **text** 版正文：纯文本，全部列出、不截断。
 
     为什么必须用 text：官方开发者社区明确「**微信插件不支持 markdown**」，
     用 markdown 发到群里，个人微信侧的微信插件只会显示
     "暂不支持此消息类型，点击前往企业微信查看"。而 text 类型插件可以正常显示。
     text 上限 **2048 字节**（官方，单位是字节），塞不下时自动拆多条连发。
 
-    代价：没有颜色，档次改用【尊享】【高级】【中档】文字标注。
+    版式：**一台车固定两行**，档次做成组标题 ——
+    因为手机宽度有限，把 7 个字段塞一行必然在随机位置折行，看起来就"乱"：
+
+        尊享 2 台
+        1. 问界M9六座版  ¥1
+        　 呼伦贝尔→北京 · 761km · 4天 · 10月20日起
+
+    第一行只放「车型＋价格」（短，不会折），第二行放路线/距离/天数/日期，
+    用 `·` 分节。档次不再逐行重复【尊享】，改成组标题，一屏能扫得更快。
+    编号全篇连续；组标题与组内第一台车绑定，不会被分页拆开。
 
     title 可选：汇总模式传「顺风车 · 近 1 小时新增 N 台好车」，不传则用默认文案。
 
@@ -631,32 +640,59 @@ def render_text_paged(pairs, url="", limit=None, title=None):
     """
     limit = int(limit or WECOM_LIMIT["text"])
     total = len(pairs)
-    n1 = sum(1 for t, _ in pairs if t == 1)
     base = title or ("顺风车 · 新增 %d 台好车" % total)
 
     def head(i, n):
         h = base
-        if n1:
-            h += "（尊享 %d）" % n1
         if n > 1:
             h += "（第 %d/%d 条）" % (i, n)
         return h
 
-    foot = ["", "完整看板：%s" % url] if url else []
+    foot = []
+    if url:
+        foot = ["", "距离＝驾车里程 · 天数＝最少租期", "完整看板：%s" % url]
 
-    lines = []
+    counts = {}
+    for t, _ in pairs:
+        counts[t] = counts.get(t, 0) + 1
+    multi = len(counts) > 1                                # 只有一档时不写组标题，省两行
+
+    blocks, prev_t = [], None
     for i, (t, r) in enumerate(pairs, 1):
-        s = "%d. 【%s】 %s ¥%s %s" % (
-            i, TIER_NAME.get(t, ""), r.get("model") or "", r.get("price") or "-",
-            "%s→%s" % (r.get("from") or "", r.get("to") or ""))
-        seg = _dist_txt(r)
-        if seg:
-            s += " " + seg
+        seg = []
+        if t != prev_t:                                    # 换档 → 插入组标题
+            if multi:
+                if prev_t is not None:
+                    seg.append("")                         # 组与组之间空一行
+                seg.append("%s %d 台" % (TIER_NAME.get(t, ""), counts[t]))
+            prev_t = t
+        seg.append("%d. %s  ¥%s" % (i, (r.get("model") or "").strip(),
+                                    r.get("price") or "-"))
+
+        bits = ["%s→%s" % (r.get("from") or "", r.get("to") or "")]
+        try:
+            drive = int(r.get("drive") or 0)
+        except Exception:                                  # noqa: BLE001
+            drive = 0
+        if drive > 0:
+            bits.append("%dkm" % drive)
+        else:
+            try:
+                km = int(r.get("km") or 0)
+            except Exception:                              # noqa: BLE001
+                km = 0
+            if km > 0:
+                bits.append("直线%dkm" % km)
+        days = r.get("days")
+        if days not in (None, "", 0, "0"):
+            bits.append("%s天" % days)
         bd = (r.get("bd") or "").strip()
         if bd:
-            s += " %s起" % bd
-        lines.append(s)
-    return _paginate(lines, head, foot, limit)
+            bits.append("%s起" % bd)
+        seg.append("　 " + " · ".join(bits))                # 全角空格缩进，对齐编号
+        blocks.append("\n".join(seg))                      # 一台车 = 一个不可拆块
+
+    return _paginate(blocks, head, foot, limit)
 
 
 def render_wecom_paged(pairs, url="", msgtype=None, title=None):

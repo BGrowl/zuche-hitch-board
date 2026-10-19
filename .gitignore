@@ -1,0 +1,43 @@
+# ---- 凭据 / 登录态：绝对不能提交 ----
+hitch-site/push-config.json
+hitch-site/push-token.json
+h5-cookies.json
+h5-cookie-header.txt
+waf-cookies.json
+*.cookie
+*.cookies
+
+# ---- 运行期状态：每次部署会重新生成 ----
+hitch-site/push-state.json
+hitch-site/data.json
+hitch-state.json
+snapshot-state.json
+__pycache__/
+*.py[cod]
+
+# ---- 抓包与数据快照（体积大，且可能含会话信息）----
+hitch-all.json
+net-capture.json
+hitchList-*.json
+hitchDetail-*.json
+*.jsonl
+
+# ---- 第三方反编译产物 / 二进制工具 / 截图 ----
+wxapkg_out/
+ios/
+shots/
+preview/
+
+# ---- 调试输出 ----
+*.log
+*.log.txt
+_t*.js
+_t*.out
+*-probe*.txt
+drive-*.txt
+flow-*.txt
+find-hitch*.txt
+click-probe*.txt
+debug-click.txt
+env.txt
+env2.txt

@@ -1,0 +1,1094 @@
+{
+  "61": {
+    "name": "丰田凯美瑞",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0 自动"
+  },
+  "826": {
+    "name": "日产轩逸",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.6 自动"
+  },
+  "843": {
+    "name": "沃尔沃S90",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "862": {
+    "name": "奥迪A4L",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "968": {
+    "name": "2023沃尔沃S90",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "989": {
+    "name": "别克GL8",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "996": {
+    "name": "丰田雷凌",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "1024": {
+    "name": "日产天籁",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0 自动"
+  },
+  "1094": {
+    "name": "大众帕萨特",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "1101": {
+    "name": "广汽传祺M8",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1122": {
+    "name": "奥迪Q3",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "1136": {
+    "name": "奥迪Q5L",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1164": {
+    "name": "日产逍客",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0 自动"
+  },
+  "1178": {
+    "name": "大众途观L",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1220": {
+    "name": "2022雪佛兰科鲁泽",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "1241": {
+    "name": "沃尔沃XC60",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1325": {
+    "name": "大众朗逸",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "1332": {
+    "name": "大众CC",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1353": {
+    "name": "坦克300",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1367": {
+    "name": "宝马3系",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1395": {
+    "name": "雪佛兰科鲁泽",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "1472": {
+    "name": "日产劲客",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "1486": {
+    "name": "大众探影",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "1493": {
+    "name": "日产楼兰",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.5 自动"
+  },
+  "1507": {
+    "name": "大众途铠",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "1521": {
+    "name": "大众捷达VS7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "1528": {
+    "name": "大众途观L",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "1542": {
+    "name": "别克君威",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "1549": {
+    "name": "奥迪A7L",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1556": {
+    "name": "奥迪A7L",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1563": {
+    "name": "宝马5系",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1633": {
+    "name": "大众探岳",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "1640": {
+    "name": "大众探影",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.2T 自动"
+  },
+  "1675": {
+    "name": "大众宝来",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.2T 自动"
+  },
+  "1738": {
+    "name": "奥迪A3L",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "1752": {
+    "name": "岚图梦想家",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "1766": {
+    "name": "大众威然",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1801": {
+    "name": "沃尔沃S90",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1822": {
+    "name": "别克GL8",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1906": {
+    "name": "雪佛兰科鲁泽",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "1934": {
+    "name": "大众途观L",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "1941": {
+    "name": "奥迪Q5L",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "1969": {
+    "name": "广汽传祺M8",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2032": {
+    "name": "大众宝来",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.2T 自动"
+  },
+  "2053": {
+    "name": "大众探岳",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "2095": {
+    "name": "大众探影",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.2T 自动"
+  },
+  "2102": {
+    "name": "大众捷达VS7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "2116": {
+    "name": "坦克300",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2270": {
+    "name": "大众凌渡L",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.2T 自动"
+  },
+  "2298": {
+    "name": "别克GL8豪华版",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2305": {
+    "name": "别克GL8豪华版",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2326": {
+    "name": "北京BJ40",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2382": {
+    "name": "广汽传祺M6",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "2396": {
+    "name": "大众高尔夫",
+    "body": "两厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "2464": {
+    "name": "比亚迪秦PLUS",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "2506": {
+    "name": "丰田亚洲狮",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0 自动"
+  },
+  "2555": {
+    "name": "广汽传祺M8尊享版",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2562": {
+    "name": "广汽传祺M8尊享版",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2569": {
+    "name": "广汽传祺M8尊享版",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2576": {
+    "name": "大众探歌",
+    "body": "紧凑型SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "2590": {
+    "name": "大众揽巡",
+    "body": "中大型SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2611": {
+    "name": "沃尔沃XC40",
+    "body": "紧凑型SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2618": {
+    "name": "丰田卡罗拉锐放",
+    "body": "紧凑型SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0 自动"
+  },
+  "2814": {
+    "name": "大众捷达VS5",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "2884": {
+    "name": "哈弗大狗",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "2926": {
+    "name": "大众途岳",
+    "body": "紧凑型SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "2933": {
+    "name": "丰田RAV4荣放",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0 自动"
+  },
+  "2940": {
+    "name": "丰田锋兰达",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0 自动"
+  },
+  "2982": {
+    "name": "丰田卡罗拉",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.2T 自动"
+  },
+  "3038": {
+    "name": "大众朗逸新锐",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "3066": {
+    "name": "大众迈腾",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "3304": {
+    "name": "理想L6",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "3311": {
+    "name": "腾势D9",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "3402": {
+    "name": "广汽传祺M8大师",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "3486": {
+    "name": "问界M7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "3794": {
+    "name": "奇瑞捷途旅行者",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "3906": {
+    "name": "小鹏MONAM03",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "纯电",
+    "disp": ""
+  },
+  "4032": {
+    "name": "大众途昂",
+    "body": "SUV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "4137": {
+    "name": "比亚迪宋Pro新能源",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "4151": {
+    "name": "理想L7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "4242": {
+    "name": "理想L8",
+    "body": "中大型SUV",
+    "seats": "6座",
+    "energy": "增程式",
+    "disp": "1.5 自动"
+  },
+  "4494": {
+    "name": "特斯拉ModelY",
+    "body": "中型SUV",
+    "seats": "5座",
+    "energy": "纯电",
+    "disp": ""
+  },
+  "4607": {
+    "name": "比亚迪汉",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "4610": {
+    "name": "大众途岳新锐",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "4613": {
+    "name": "特斯拉Model3",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "纯电",
+    "disp": ""
+  },
+  "4615": {
+    "name": "大众高尔夫",
+    "body": "两厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "4616": {
+    "name": "领克01",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "4618": {
+    "name": "丰田凯美瑞双擎",
+    "body": "中型车",
+    "seats": "5座",
+    "energy": "油电混",
+    "disp": "2.0 自动"
+  },
+  "4624": {
+    "name": "比亚迪秦PLUS",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "4631": {
+    "name": "岚图梦想家",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "4639": {
+    "name": "比亚迪海豹05",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5L 自动"
+  },
+  "4649": {
+    "name": "别克GL8新能源",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "4663": {
+    "name": "大众朗逸",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "4665": {
+    "name": "雪佛兰科鲁泽",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "4666": {
+    "name": "大众途铠",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "4667": {
+    "name": "坦克300",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "4668": {
+    "name": "大众帕萨特",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "4669": {
+    "name": "大众捷达VS7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.4T 自动"
+  },
+  "4670": {
+    "name": "日产天籁",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0 自动"
+  },
+  "4671": {
+    "name": "领克01",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "4672": {
+    "name": "大众探影",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.2T 自动"
+  },
+  "4673": {
+    "name": "日产劲客",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "4674": {
+    "name": "大众途观L",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "4676": {
+    "name": "比亚迪秦PLUS",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "4680": {
+    "name": "大众探岳",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "4682": {
+    "name": "宝马3系",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "4695": {
+    "name": "大众朗逸新锐",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "4715": {
+    "name": "大众途观L",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "4721": {
+    "name": "大众宝来",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.2T 自动"
+  },
+  "4726": {
+    "name": "比亚迪宋Pro新能源",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "4730": {
+    "name": "大众探影",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "4795": {
+    "name": "理想L7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "4815": {
+    "name": "宝马X3",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "4852": {
+    "name": "北京BJ30",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "4854": {
+    "name": "比亚迪宋Pro新能源",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "4860": {
+    "name": "比亚迪汉",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "4865": {
+    "name": "大众途岳",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "4866": {
+    "name": "丰田卡罗拉锐放",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0 自动"
+  },
+  "4870": {
+    "name": "问界M7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "4878": {
+    "name": "问界M7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "4900": {
+    "name": "比亚迪唐新能源",
+    "body": "SUV",
+    "seats": "7座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "4920": {
+    "name": "北京BJ40荣耀",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "4947": {
+    "name": "东风猛士M817",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "4952": {
+    "name": "比亚迪海狮05",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "4965": {
+    "name": "问界M9六座版",
+    "body": "SUV",
+    "seats": "6座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "5020": {
+    "name": "零跑B01",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "纯电",
+    "disp": ""
+  },
+  "5036": {
+    "name": "尚界H5",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5 自动"
+  },
+  "5038": {
+    "name": "尚界H5",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5 自动"
+  },
+  "5046": {
+    "name": "奥迪E5Sportback",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "纯电",
+    "disp": ""
+  },
+  "5048": {
+    "name": "红旗HS3新能源",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "5049": {
+    "name": "日产N7",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "纯电",
+    "disp": ""
+  },
+  "5058": {
+    "name": "方程豹钛7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "5087": {
+    "name": "北京BJ30",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "5089": {
+    "name": "大众高尔夫",
+    "body": "两厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "5090": {
+    "name": "大众途昂Pro",
+    "body": "SUV",
+    "seats": "7座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "5092": {
+    "name": "大众途岳新锐",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "5114": {
+    "name": "零跑C16",
+    "body": "SUV",
+    "seats": "6座",
+    "energy": "增程式",
+    "disp": "1.5 自动"
+  },
+  "5125": {
+    "name": "岚图泰山",
+    "body": "SUV",
+    "seats": "6座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "5134": {
+    "name": "吉利银河星耀6",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5 自动"
+  },
+  "5138": {
+    "name": "长安逸动",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5T 自动"
+  },
+  "5143": {
+    "name": "大众途岳新锐",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "5145": {
+    "name": "腾势D9",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "5171": {
+    "name": "大众ID.ERA9X",
+    "body": "SUV",
+    "seats": "6座",
+    "energy": "增程式",
+    "disp": "1.5 自动"
+  },
+  "5173": {
+    "name": "沃尔沃XC70两驱",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "5178": {
+    "name": "小鹏X9",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "5200": {
+    "name": "腾势Z9GT",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "插电混",
+    "disp": "2.0T 自动"
+  },
+  "5208": {
+    "name": "大众ID.ERA9X",
+    "body": "SUV",
+    "seats": "6座",
+    "energy": "增程式",
+    "disp": "1.5 自动"
+  },
+  "5209": {
+    "name": "别克GL8新能源",
+    "body": "MPV",
+    "seats": "7座",
+    "energy": "插电混",
+    "disp": "1.5T 自动"
+  },
+  "5216": {
+    "name": "日产NX8",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "0.0T 自动"
+  },
+  "4634": {
+    "name": "问界M9六座版",
+    "body": "SUV",
+    "seats": "6座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "1948": {
+    "name": "宝马5系",
+    "body": "三厢轿车",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "2.0T 自动"
+  },
+  "2046": {
+    "name": "大众途铠",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "汽油",
+    "disp": "1.5 自动"
+  },
+  "4431": {
+    "name": "理想L7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "4856": {
+    "name": "问界M7",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5T 自动"
+  },
+  "5034": {
+    "name": "长安深蓝S07",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5 自动"
+  },
+  "5045": {
+    "name": "理想L6",
+    "body": "SUV",
+    "seats": "5座",
+    "energy": "增程式",
+    "disp": "1.5 自动"
+  }
+}

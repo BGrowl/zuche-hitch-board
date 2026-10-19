@@ -1,16 +1,72 @@
-Copyright (c) 2026 BGrowl. All rights reserved.
+版权所有 © 2026 BGrowl　保留所有权利
+Copyright © 2026 BGrowl. All Rights Reserved.
 
-本仓库为个人私有项目（PROPRIETARY / ALL RIGHTS RESERVED）。
+────────────────────────────────────────────────────────────
+重 要 声 明
+────────────────────────────────────────────────────────────
 
-未经著作权人事先书面许可，任何个人或组织不得：
-1. 复制、转载、分发本项目的全部或部分代码与文档；
-2. 将本项目或其衍生作品用于商业用途；
-3. 部署、运行本项目的服务端，或以任何形式向第三方提供基于本项目的服务。
+本仓库以「公开可见」方式发布，仅用于展示与存档。
 
-本项目按「现状」提供，不附带任何明示或暗示的担保。
+**公开可见 ≠ 授权使用。** 除浏览、阅读之外，未授予任何权利。
 
----
+未经著作权人事先书面许可，严禁任何个人或组织实施下列行为：
 
-This repository is proprietary and confidential. No permission is granted to use,
-copy, modify, or distribute any part of it without prior written consent from the
-copyright holder.
+  1. 复制、下载、镜像、转载、再发布本项目的全部或任何部分；
+  2. 修改、翻译、改编，或据此创作衍生作品；
+  3. 将本项目或其任何部分（含代码、算法、数据结构、文档）用于任何
+     商业或非商业的产品、服务、内部系统、教学材料或竞赛作品；
+  4. 部署、运行本项目，包括但不限于其抓取脚本、服务端、推送模块；
+  5. 向第三方提供基于本项目的服务，或将其作为服务的一部分对外提供；
+  6. 移除、遮蔽、篡改本声明、版权标识或作者署名。
+
+────────────────────────────────────────────────────────────
+关 于 第 三 方
+────────────────────────────────────────────────────────────
+
+本项目包含对第三方平台公开接口的调用方式与数据结构分析。相关平台名称、
+商标、数据及服务的一切权利归其各自权利人所有。
+
+本项目与上述任何第三方平台均无关联，未获其授权、认可或赞助。
+使用者因违反第三方平台服务条款而产生的任何后果，由使用者自行承担。
+
+────────────────────────────────────────────────────────────
+无 担 保 与 责 任 限 制
+────────────────────────────────────────────────────────────
+
+本项目按「现状」（AS IS）提供，不附带任何明示或默示的担保，包括但不限于
+适销性、特定用途适用性与不侵权的担保。
+
+在任何情况下，著作权人均不对因使用或无法使用本项目而产生的任何直接、
+间接、偶然、特殊或后果性损害承担责任。
+
+────────────────────────────────────────────────────────────
+授 权 申 请
+────────────────────────────────────────────────────────────
+
+如需在本文未允许的范围内使用，须事先取得书面许可。
+请通过本仓库的 Issues 页面联系著作权人，说明用途与范围。
+
+────────────────────────────────────────────────────────────
+ENGLISH
+────────────────────────────────────────────────────────────
+
+This repository is made publicly visible for demonstration and archival
+purposes only. **Public visibility does not grant any license or permission
+to use.**
+
+No permission is granted to copy, download, mirror, redistribute, modify,
+translate, create derivative works from, deploy, run, or otherwise exploit
+any part of this project, in whole or in part, for any commercial or
+non-commercial purpose, without prior written consent from the copyright
+holder.
+
+All third-party platform names, trademarks, and data referenced herein remain
+the property of their respective owners. This project is not affiliated with,
+authorized, endorsed, or sponsored by any of them.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+For licensing inquiries, please open an issue in this repository.

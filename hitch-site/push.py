@@ -662,7 +662,7 @@ def render_text_paged(pairs, url="", limit=None, title=None):
         seg.append("%d. 【%s】 %s  ¥%s" % (i, TIER_NAME.get(t, ""),
                                           (r.get("model") or "").strip(),
                                           r.get("price") or "-"))
-        seg.append("%s → %s" % (r.get("from") or "", r.get("to") or ""))
+        seg.append("　 %s → %s" % (r.get("from") or "", r.get("to") or ""))
 
         bits = []                                          # 第三行：距离 · 租期 · 起租日
         try:
@@ -685,7 +685,7 @@ def render_text_paged(pairs, url="", limit=None, title=None):
         if bd:
             bits.append("%s起" % bd)
         if bits:
-            seg.append(" · ".join(bits))
+            seg.append("　 " + " · ".join(bits))
         blocks.append("\n".join(seg))                      # 一台车 = 一个不可拆块
 
     return _paginate(blocks, head, foot, limit)

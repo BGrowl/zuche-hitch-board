@@ -36,7 +36,9 @@ hitch-site/      ★ 线上服务（部署单位）
   push.py        多通道推送：企业微信群机器人 / 微信公众号测试号 / PushPlus / WxPusher
   car_rank.py    与根目录同源，部署时需要
   geo.py         城市间直线距离（半正矢），本地查表、运行期零网络
+  route_dist.py  城市间驾车里程（OSRM 路由 + 本地缓存，带限速与熔断）
   city-geo.json  314 个城市的经纬度表
+  route-cache.json  已算过的城市对 → 驾车里程（避免重复请求路由服务）
   fetch_city_geo.py  一次性抓取/补全坐标的工具（新增城市时跑一次）
     
 alt-domain/      反代 / 备用域名配置（Cloudflare Worker、Vercel）
@@ -73,16 +75,19 @@ python server.py                                # 默认 8000 端口，PORT 环�
 
 ## 距离
 
-每条车源在路线上显示「取车城市 → 还车城市」的**直线距离**，由本地坐标表 + 半正矢公式算出，
-运行期零网络请求、毫秒级。
+每条车源在路线上显示「取车城市 → 还车城市」的**驾车里程**，例如 `驾车 2,002 km`。
 
-- 口径是**球面直线距离（大圆距离）**，不是驾车里程；中国境内跨城驾车里程通常是直线距离的 1.2~1.4 倍。
-  页面标注「约 N km」并在气泡里写明「直线距离（非驾车里程）」，不做无依据的换算。
+- **主口径是真实道路里程**，由 OSRM（OpenStreetMap 路网）算出，缓存在 `route-cache.json`。
+  算过的城市对不再请求；运行期只读缓存，**不会在每次刷新时打路由服务**。
+- 缓存里没有的组合，服务端每轮最多补 25 对，带 0.8s 限速与「连续 3 次失败即停」的熔断。
+  补上之前，该条退回显示**直线距离**（标注「直线」），不会留空也不会报错。
+- 直线距离是 `geo.py` 用半正矢算的兜底值。实测两者比值：中位 1.20，范围 1.03~1.91。
 - 接口只到**城市级**（`pickupCityName` / `returnCityName`），没有门店级坐标与地址，
   所以算的是两个城市中心点之间的距离。
-- 车源里出现新城市时，跑一次 `python hitch-site/fetch_city_geo.py` 补坐标即可
-  （默认只补缺失，已有条目不动；`--force` 才全量重抓）。
-- 坐标数据 © OpenStreetMap contributors，ODbL 许可（https://www.openstreetmap.org/copyright）。
+- 车源里出现新城市时，跑 `python hitch-site/fetch_city_geo.py` 补坐标；
+  新的城市对会由服务端自动补算，也可以手动跑 `route_dist.fill_missing()` 一次补齐。
+- 路网与坐标数据 © OpenStreetMap contributors，ODbL 许可（https://www.openstreetmap.org/copyright）。
+  路由服务：OSRM 官方 demo（`router.project-osrm.org`），失败自动切 FOSSGIS 实例。
 
 ## 关于凭据
 

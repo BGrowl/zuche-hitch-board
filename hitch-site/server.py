@@ -94,6 +94,12 @@ except Exception:                                            # 兜底：缺文�
     def _distance(a, b):
         return None
 
+# 真实**驾车里程**（OSRM 路由 + 本地缓存；只读缓存，不在这里发请求）
+try:
+    import route_dist as _route
+except Exception:                                            # 兜底：缺文件则退化为直线
+    _route = None
+
 # 云端推送：未配置凭据时安静跳过，不影响服务
 try:
     import push as _push
@@ -183,6 +189,8 @@ def slim(it):
         "from": it.get("pickupCityName") or "",
         "to": it.get("returnCityName") or "",
         "km": _distance(it.get("pickupCityName"), it.get("returnCityName")),  # 直线距离(km)；无坐标则 None
+        "drive": (_route.get(it.get("pickupCityName"), it.get("returnCityName"))
+                  if _route is not None else None),          # 驾车里程(km)；未算出则 None，前端退回直线
         "bd": it.get("beginDate") or "",
         "ed": it.get("endDate") or "",
         "days": it.get("limitTenancyDay") or "",
@@ -271,6 +279,22 @@ def refresh_once():
             log("推送模块异常（已忽略）：%s: %s" % (type(exc).__name__, exc))
             with _lock:
                 _state["pushInfo"] = "异常：%s: %s" % (type(exc).__name__, exc)
+
+
+    # 驾车里程：缓存里没有的城市对，慢慢补齐（每轮最多 25 对，带熔断）。
+    # 放在推送之后、整段包 try —— 路由服务挂了也绝不能影响看板与推送。
+    if _route is not None:
+        try:
+            got = _route.fill_missing(
+                [(r.get("from"), r.get("to")) for r in rows], limit=25, log=log)
+            if got:
+                rows = [slim(x) for x in items]           # 带上新算出的 drive 再写一次
+                with _lock:
+                    _state["items"] = rows
+                save_data()
+                log("驾车里程：本轮补 %d 条，缓存共 %d 条" % (got, _route.known()))
+        except Exception as exc:                             # noqa: BLE001
+            log("驾车里程补齐异常（已忽略）：%s: %s" % (type(exc).__name__, exc))
 
 
 def refresh_loop():

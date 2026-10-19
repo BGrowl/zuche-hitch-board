@@ -101,13 +101,13 @@ function render(reset){
     const el=document.createElement('article'),t=tier(d.rank);
     el.className='card t'+t;
     const specs=[d.body,d.seats,d.energy].filter(Boolean).map(s=>'<span>'+esc(s)+'</span>').join('');
-    const km=Number(d.km||0),kmHtml=km>0?'<span class="route-km" title="取车城市与还车城市之间的直线距离（非驾车里程）">约 '+km.toLocaleString('en-US')+' km</span>':(km===0&&d.from===d.to?'<span class="route-km">同城</span>':'');
+    const km=Number(d.km||0),drive=Number(d.drive||0),kmHtml=drive>0?'<span class="route-km" title="驾车里程（OSRM / OpenStreetMap 路网）'+(km>0?' · 直线 '+km.toLocaleString('en-US')+' km':'')+'">驾车 '+drive.toLocaleString('en-US')+' km</span>':(km>0?'<span class="route-km" title="直线距离（非驾车里程）；驾车里程尚未算出">直线 '+km.toLocaleString('en-US')+' km</span>':(km===0&&d.from===d.to?'<span class="route-km">同城</span>':''));
     el.innerHTML='<div class="card-head"><div class="model-group"><h3 class="model">'+esc(d.model)+'</h3><span class="tier lv'+t+'">'+TIER_NAME[t]+'</span></div>'+
       '<div class="price" aria-label="租金 '+esc(d.price)+' 元"><span class="currency">¥</span>'+esc(d.price)+
       (d.est&&Number(d.est)>Number(d.price)?'<small>¥'+esc(d.est)+'</small>':'')+'</div></div>'+
       '<div class="specs"><span class="category">'+esc(d.cls||'')+'</span>'+specs+
       (NEW.has(String(d.id))?'<span class="new-badge">本轮新增</span>':'')+'</div>'+
-      '<div class="route" aria-label="从 '+esc(d.from)+' 取车，到 '+esc(d.to)+' 还车'+(km>0?'，直线距离约 '+km+' 公里':'')+'"><span class="place-label">取</span><span class="city">'+esc(d.from)+'</span><span class="route-arrow" aria-hidden="true">→</span><span class="place-label">还</span><span class="city">'+esc(d.to)+'</span>'+kmHtml+'</div>'+
+      '<div class="route" aria-label="从 '+esc(d.from)+' 取车，到 '+esc(d.to)+' 还车'+(drive>0?'，驾车里程约 '+drive+' 公里':(km>0?'，直线距离约 '+km+' 公里':''))+'"><span class="place-label">取</span><span class="city">'+esc(d.from)+'</span><span class="route-arrow" aria-hidden="true">→</span><span class="place-label">还</span><span class="city">'+esc(d.to)+'</span>'+kmHtml+'</div>'+
       '<div class="trip-detail"><span>'+esc(d.bd)+' – '+esc(d.ed)+'</span><span class="days">'+esc(d.days)+' 天</span></div>';
     el.setAttribute('title','车源编号 '+String(d.id));
     frag.appendChild(el);

@@ -598,6 +598,8 @@ def _paginate(item_lines, head_fn, foot_lines, limit):
     pages, ranges, cursor = [], [], 0
     for idx, ch in enumerate(chunks, 1):
         ch = list(ch)
+        if ch:
+            ch[0] = ch[0].lstrip("\n")                     # 分页后别让首块多出空行
         foot = list(foot_lines) if (idx == n and foot_lines) else []
         while True:
             body = "\n".join([head_fn(idx, n), ""] + ch + ([""] + foot if foot else []))
@@ -623,16 +625,16 @@ def render_text_paged(pairs, url="", limit=None, title=None):
     "暂不支持此消息类型，点击前往企业微信查看"。而 text 类型插件可以正常显示。
     text 上限 **2048 字节**（官方，单位是字节），塞不下时自动拆多条连发。
 
-    版式：**一台车固定两行**，档次做成组标题 ——
+    版式：**一台车固定三行**，档次标在每台车第一行 ——
     因为手机宽度有限，把 7 个字段塞一行必然在随机位置折行，看起来就"乱"：
 
-        尊享 2 台
-        1. 问界M9六座版  ¥1
-        　 呼伦贝尔→北京 · 761km · 4天 · 10月20日起
+        1. 【尊享】 问界M9六座版  ¥1
+        　 呼伦贝尔 → 北京
+        　 761km · 4天 · 10月20日起
 
-    第一行只放「车型＋价格」（短，不会折），第二行放路线/距离/天数/日期，
-    用 `·` 分节。档次不再逐行重复【尊享】，改成组标题，一屏能扫得更快。
-    编号全篇连续；组标题与组内第一台车绑定，不会被分页拆开。
+    三行各管一件事：① 档次＋车型＋价格 ② 取还车地点 ③ 距离·租期·起租日。
+    每行都短，不会折行。档次**逐台标注**（而不是只做组标题）：单档时也不会丢，
+    跨页时也不会因为组标题留在上一页而看不到。
 
     title 可选：汇总模式传「顺风车 · 近 1 小时新增 N 台好车」，不传则用默认文案。
 
@@ -652,24 +654,17 @@ def render_text_paged(pairs, url="", limit=None, title=None):
     if url:
         foot = ["", "距离＝驾车里程 · 天数＝最少租期", "完整看板：%s" % url]
 
-    counts = {}
-    for t, _ in pairs:
-        counts[t] = counts.get(t, 0) + 1
-    multi = len(counts) > 1                                # 只有一档时不写组标题，省两行
-
-    blocks, prev_t = [], None
+    blocks = []
     for i, (t, r) in enumerate(pairs, 1):
         seg = []
-        if t != prev_t:                                    # 换档 → 插入组标题
-            if multi:
-                if prev_t is not None:
-                    seg.append("")                         # 组与组之间空一行
-                seg.append("%s %d 台" % (TIER_NAME.get(t, ""), counts[t]))
-            prev_t = t
-        seg.append("%d. %s  ¥%s" % (i, (r.get("model") or "").strip(),
-                                    r.get("price") or "-"))
+        if blocks:                                         # 车与车之间空一行
+            seg.append("")
+        seg.append("%d. 【%s】 %s  ¥%s" % (i, TIER_NAME.get(t, ""),
+                                          (r.get("model") or "").strip(),
+                                          r.get("price") or "-"))
+        seg.append("%s → %s" % (r.get("from") or "", r.get("to") or ""))
 
-        bits = ["%s→%s" % (r.get("from") or "", r.get("to") or "")]
+        bits = []                                          # 第三行：距离 · 租期 · 起租日
         try:
             drive = int(r.get("drive") or 0)
         except Exception:                                  # noqa: BLE001
@@ -689,7 +684,8 @@ def render_text_paged(pairs, url="", limit=None, title=None):
         bd = (r.get("bd") or "").strip()
         if bd:
             bits.append("%s起" % bd)
-        seg.append("　 " + " · ".join(bits))                # 全角空格缩进，对齐编号
+        if bits:
+            seg.append(" · ".join(bits))
         blocks.append("\n".join(seg))                      # 一台车 = 一个不可拆块
 
     return _paginate(blocks, head, foot, limit)

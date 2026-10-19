@@ -650,9 +650,7 @@ def render_text_paged(pairs, url="", limit=None, title=None):
             h += "（第 %d/%d 条）" % (i, n)
         return h
 
-    foot = []
-    if url:
-        foot = ["", "距离＝驾车里程 · 天数＝最少租期", "完整看板：%s" % url]
+    foot = ["", "完整看板：%s" % url] if url else []
 
     blocks = []
     for i, (t, r) in enumerate(pairs, 1):

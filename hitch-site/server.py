@@ -89,9 +89,12 @@ _BYNAME = _by_name_index(_META)
 
 # 取车城市 → 还车城市的直线距离（本地坐标表 + 半正矢，运行期不联网）
 try:
-    from geo import distance as _distance
+    from geo import distance as _distance, coord as _coord
 except Exception:                                            # 兜底：缺文件则不出距离
     def _distance(a, b):
+        return None
+
+    def _coord(c):
         return None
 
 # 真实**驾车里程**（OSRM 路由 + 本地缓存；只读缓存，不在这里发请求）
@@ -362,6 +365,20 @@ class Handler(BaseHTTPRequestHandler):
                         st["pushDetail"] = _push.last_summary()
                     except Exception:                        # noqa: BLE001
                         st["pushDetail"] = None
+                # 距离覆盖率自检：城市坐标表里没有的城市，那几条会显示不出距离
+                # （2026-10-22 踩过：贺州不在坐标表里，推送该条完全没有距离项）
+                try:
+                    items = _state["items"]
+                    st["distance"] = {
+                        "covered": sum(1 for r in items if r.get("drive")),
+                        "total": len(items),
+                        "missingCities": sorted({
+                            c for r in items
+                            for c in (r.get("from"), r.get("to"))
+                            if c and _coord(c) is None}),
+                    }
+                except Exception:                            # noqa: BLE001
+                    st["distance"] = None
             self._send(200, json.dumps(st, ensure_ascii=False, indent=2),
                        "application/json; charset=utf-8")
         else:

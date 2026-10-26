@@ -1,0 +1,54 @@
+name: keepalive
+
+# 作用：定时唤醒云沙箱。
+# 背景：托管沙箱「没人访问就休眠」，进程一休眠，server.py 里的 600s 抓取循环
+# 和「每小时汇总推送」都会停。本 workflow 每 10 分钟请求一次 /health，
+# 让沙箱保持热态，推送节奏才接近真正的每 10 分钟。
+#
+# 注意：GitHub 的 schedule 是 best-effort，高峰期可能延迟 5~20 分钟；
+# 公开仓库的 Actions 分钟数不计量，成本可忽略。
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: keepalive
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Wake board (/health)
+        env:
+          URL: https://zuche-hitch-board.app.workbuddy.host/health
+        run: |
+          set -u
+          for i in 1 2 3; do
+            code=$(curl -sS -o resp.json -w '%{http_code}' --max-time 60 "$URL" || echo 000)
+            echo "attempt $i -> HTTP $code"
+            if [ "$code" = "200" ]; then
+              python3 - <<'PY'
+import json
+d = json.load(open("resp.json", encoding="utf-8"))
+print("ok        :", d.get("ok"))
+print("count     :", d.get("count"))
+print("runs      :", d.get("runs"))
+print("updatedAt :", d.get("updatedAt"))
+print("push      :", d.get("push"))
+dist = d.get("distance") or {}
+print("distance  :", dist.get("covered"), "/", dist.get("total"),
+      "missing=", dist.get("missingCities"))
+PY
+              exit 0
+            fi
+            sleep 30
+          done
+          echo "::error::/health 连续 3 次失败，看板可能已下线"
+          exit 1

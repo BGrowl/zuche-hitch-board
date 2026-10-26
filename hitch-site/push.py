@@ -261,7 +261,7 @@ def save_state(st):
 
 
 def seed_baseline(rows, log=None):
-    """新进程/新沙箱的**首轮**：把当前全量标记为已读，清空待汇总，本轮不推送。
+    """基线重建：把当前全量标记为已读、清空待汇总，本轮不推送。
 
     为什么必须这么做：数据源的库存量波动很大（实测同一接口在 825~1198 之间跳），
     任何"拿发布前的 data.json 当基线"的做法，都会漏掉波动进来的那部分 ——
@@ -278,7 +278,7 @@ def seed_baseline(rows, log=None):
     st["seededAt"] = int(time.time() * 1000)
     save_state(st)
     if log:
-        log("首轮建基线：%d 台标记为已读（累计 %d），本轮不推送"
+        log("重建基线：%d 台标记为已读（累计 %d），本轮不推送"
             % (len(ids), len(st["sentIds"])))
     return len(ids)
 
@@ -964,6 +964,21 @@ def push_new(rows, new_ids, log=print):
     fresh = [i for i in (new_ids or []) if i not in seen]
     st["lastFresh"] = len(fresh)
     st["lastFreshTiers"] = _tier_counts(rows, fresh)
+
+    # ---- ⓪ 基线自检：本轮"新增"占了库存一大半，说明 sentIds 与服务端数据脱节 ----
+    # 典型场景：发布换了 data.json 快照、或长时间停机后车源 id 大换代。
+    # 这时 fresh 实质是"全量 vs 旧集合"的对比，不是增量，推出去就是整库轰炸。
+    #
+    # ⚠️ 绝对**不能**用"是不是进程首轮"来判断：云沙箱在无请求时会休眠，
+    #    被访问才冷启动，每次冷启动 `runs` 都从 1 开始。按首轮静默会把推送永远锁死
+    #    （2026-10-26 就是这么做，结果 17:39 之后 8 小时一条都没推出去）。
+    #    按"占比"判断才不会误伤正常冷启动 —— 正常增量通常只有几十条。
+    guard = max(200, len(rows) // 2)
+    if len(fresh) > guard:
+        n = seed_baseline(rows, log=log)
+        return 0, ("新增 %d 条占库存 %d 的 %d%%，判定基线失联，已重建基线（%d 台），本轮不推送"
+                   % (len(fresh), len(rows),
+                      int(100 * len(fresh) / max(1, len(rows))), n))
 
     min_tier = int(cfg.get("min_tier") or DEFAULT_MIN_TIER)
     by_id = {r.get("id"): r for r in rows}

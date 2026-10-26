@@ -271,15 +271,12 @@ def refresh_once():
     # 两条腿：即时推（本轮有新车就发）+ 小时汇总（攒满 push_every_sec 再发一条）。
     # 整段包在 try 里 —— 推送出任何问题都绝不能影响看板本身。
     #
-    # ⚠️ 进程启动后的**首轮只建基线、不推送**：库存量波动大（825~1198），
-    #    首轮的 newIds 是"全量 vs 空集合"，推出去就是整库轰炸（2026-10-26 推了 169 台）。
+    # ⚠️ 不要在"进程首轮"上做静默：云沙箱无请求时会休眠，被访问才冷启动，
+    #    每次冷启动 runs 都从 1 开始 —— 按首轮静默等于把推送永远关掉。
+    #    防轰炸的判断放在 push_new() 内部（按"新增占比"，见 ⓪ 基线自检）。
     if _push is not None:
         try:
-            if _state["runs"] == 1:                      # 首轮
-                n = _push.seed_baseline(rows, log=log)
-                sent, info = 0, "首轮建基线：%d 台已标记为已读，本轮不推送" % n
-            else:
-                sent, info = _push.push_new(rows, fresh, log=log)
+            sent, info = _push.push_new(rows, fresh, log=log)
             with _lock:
                 _state["pushSent"] = sent
                 _state["pushInfo"] = info

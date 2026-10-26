@@ -7,6 +7,8 @@ name: keepalive
 #
 # 注意：GitHub 的 schedule 是 best-effort，高峰期可能延迟 5~20 分钟；
 # 公开仓库的 Actions 分钟数不计量，成本可忽略。
+#
+# 坑：不要在 run: | 里写正文顶格的 heredoc —— 会提前终止块标量、整个文件解析失败。
 
 on:
   schedule:
@@ -34,18 +36,8 @@ jobs:
             code=$(curl -sS -o resp.json -w '%{http_code}' --max-time 60 "$URL" || echo 000)
             echo "attempt $i -> HTTP $code"
             if [ "$code" = "200" ]; then
-              python3 - <<'PY'
-import json
-d = json.load(open("resp.json", encoding="utf-8"))
-print("ok        :", d.get("ok"))
-print("count     :", d.get("count"))
-print("runs      :", d.get("runs"))
-print("updatedAt :", d.get("updatedAt"))
-print("push      :", d.get("push"))
-dist = d.get("distance") or {}
-print("distance  :", dist.get("covered"), "/", dist.get("total"),
-      "missing=", dist.get("missingCities"))
-PY
+              jq -r '"runs=\(.runs) count=\(.count) ok=\(.ok) new=\(.newCount) push=\(.push.info)"' resp.json
+              jq -c '.distance' resp.json
               exit 0
             fi
             sleep 30

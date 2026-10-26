@@ -270,9 +270,16 @@ def refresh_once():
     # 云端推送：只把新增里的金/银/铜档次（尊享 / 高级 / 中档）纳入。
     # 两条腿：即时推（本轮有新车就发）+ 小时汇总（攒满 push_every_sec 再发一条）。
     # 整段包在 try 里 —— 推送出任何问题都绝不能影响看板本身。
+    #
+    # ⚠️ 进程启动后的**首轮只建基线、不推送**：库存量波动大（825~1198），
+    #    首轮的 newIds 是"全量 vs 空集合"，推出去就是整库轰炸（2026-10-26 推了 169 台）。
     if _push is not None:
         try:
-            sent, info = _push.push_new(rows, fresh, log=log)
+            if _state["runs"] == 1:                      # 首轮
+                n = _push.seed_baseline(rows, log=log)
+                sent, info = 0, "首轮建基线：%d 台已标记为已读，本轮不推送" % n
+            else:
+                sent, info = _push.push_new(rows, fresh, log=log)
             with _lock:
                 _state["pushSent"] = sent
                 _state["pushInfo"] = info

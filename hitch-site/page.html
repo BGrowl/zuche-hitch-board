@@ -1,44 +1,103 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f6f8"><meta name="description" content="神州租车顺风车车源，按城市、车型、租金和日期筛选比较。"><title>顺风车车源 · 神州租车</title><style>:root{color-scheme:light;--canvas:#f5f7fa;--surface:#fff;--ink:#243244;--muted:#5d6b7d;--line:#dce3ec;--accent:#315c87;--selected:#eaf1f8;--space-xs:4px;--space-sm:8px;--space-md:12px;--space-lg:16px;--space-xl:24px;--radius:12px}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth}body{margin:0;background:var(--canvas);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}button,input,select{font:inherit;color:inherit}button,select{cursor:pointer}button{border:0;background:none}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}input{caret-color:var(--accent)}::selection{background:#dce9f6;color:#1b3856}[hidden]{display:none!important}svg{flex-shrink:0}
-.main{max-width:1760px;margin:auto;padding:0 28px 24px}.topline{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;border-bottom:1px solid var(--line)}.title-group{display:flex;align-items:baseline;gap:12px}.title-group h1{margin:0;font-size:20px;line-height:28px;letter-spacing:.2px;font-weight:650;text-wrap:balance}.product-label{font-size:12px;color:var(--muted);border-left:1px solid #c7d1de;padding-left:12px}.live-pill{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);white-space:nowrap}.dot{height:6px;width:6px;border-radius:50%;background:#397c62}.dot.stale{background:#9a6a22}.dot.err{background:#a74339}.demo-banner{font-size:11px;line-height:18px;color:#795f36;padding-top:7px}
-.tabs{display:flex;align-items:center;gap:28px;min-height:48px;border-bottom:1px solid var(--line);margin-bottom:16px}.nav-item{min-height:48px;position:relative;display:flex;align-items:center;gap:8px;padding:0 1px;font-size:13px;white-space:nowrap;color:var(--muted)}.nav-item.active{color:var(--accent);font-weight:650}.nav-item.active:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent)}.nav-item:hover{color:var(--accent)}.tab-count{font-size:12px;font-variant-numeric:tabular-nums;font-weight:450;color:var(--muted)}.nav-item.active .tab-count{color:var(--accent)}.quality-count{margin-left:auto;font-size:12px;color:var(--muted)}.quality-count b{font-weight:600;color:#435c77}
-.filter-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:20px}.filter-fields{display:grid;grid-template-columns:minmax(160px,1fr) 16px minmax(160px,1fr) minmax(135px,.85fr) minmax(190px,1.5fr);gap:10px;align-items:center}.filter-fields input,.filter-fields select,.ss-btn{height:36px;width:100%;padding:6px 10px;background:#fff;border:1px solid #cfd8e4;border-radius:6px;font-size:12px;line-height:22px}.filter-fields input::placeholder{color:#657386;opacity:1}.filter-fields input:hover,.filter-fields select:hover,.ss-btn:hover{border-color:#879db6}.filter-arrow{color:#738298;text-align:center}.search-input{position:relative;min-width:0}.search-input svg{position:absolute;left:10px;top:11px;color:#647386}.search-input input{padding-left:31px}.class-control{position:relative;display:flex;align-items:center;border:1px solid #cfd8e4;border-radius:6px;min-width:0;background:#fff}.class-control>span{font-size:11px;color:var(--muted);padding-left:10px;white-space:nowrap}.class-control select{border:0;height:34px;padding-left:8px;min-width:0}.quick-filters{display:flex;align-items:center;gap:8px;margin-top:10px;min-height:30px;flex-wrap:wrap}.chip{display:flex;align-items:center;gap:6px;min-height:30px;padding:3px 9px;border:1px solid #d9e1eb;border-radius:5px;font-size:11px;line-height:22px;color:#52657b;background:#fafbfd;white-space:nowrap}.chip:before{content:"";height:10px;width:10px;border:1px solid #8c9db2;border-radius:2px;background:#fff}.chip.on{background:var(--selected);border-color:#9cb4ce;color:#2f567d}.chip.on:before{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 2px #eaf1f8}.chip:hover{border-color:#8da5c0}.reset{min-height:30px;padding:3px 8px;color:var(--accent);font-size:11px;border-radius:5px;white-space:nowrap}.reset:hover{background:var(--selected)}.data-status{margin-left:auto;font-size:11px;color:var(--muted);text-align:right}.data-status.warning{color:#8a5d20}
-.results-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;min-height:32px;scroll-margin-top:12px}.results-bar h2{margin:0;font-size:14px;line-height:20px;font-weight:650}.result-count{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}.tier-key{display:flex;align-items:center;gap:12px;margin-left:auto;font-size:11px;color:var(--muted)}.tier-key span{display:flex;align-items:center;gap:4px}.tier-key span:before{content:"";width:6px;height:6px;border-radius:2px;background:#9ca7b5}.tier-key .key1:before{background:#9b7d36}.tier-key .key2:before{background:#71839a}.tier-key .key3:before{background:#aa7a56}.sort{height:32px;max-width:175px;padding:4px 8px;margin-left:4px;border:1px solid #cfd8e4;border-radius:6px;background:#fff;font-size:11px;color:#465d76}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.card{--card-bg:#fff;--tier-ink:#536579;--badge:#edf1f6;--tier-edge:#dae1e9;--secondary:#596b7f;min-width:0;border:1px solid var(--tier-edge);border-radius:var(--radius);padding:12px 14px;background:var(--card-bg);color:var(--ink);transition:border-color .16s ease-out}.card.t1{--card-bg:#fffdf7;--tier-ink:#775c20;--badge:#f3ead2;--tier-edge:#e3d7b5;--secondary:#6c6554}.card.t2{--card-bg:#f6f9fd;--tier-ink:#4e627e;--badge:#e6edf6;--tier-edge:#d5dfed;--secondary:#5c6d85}.card.t3{--card-bg:#fdf9f5;--tier-ink:#825a3b;--badge:#f1e6dc;--tier-edge:#e6d9cc;--secondary:#716458}.card.t4{--card-bg:#fff;--tier-ink:#5b6878;--badge:#eef1f5;--tier-edge:#dce3ec;--secondary:#5d6b7d}.card:hover{border-color:#8ca3bf}.card-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.model-group{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px;min-width:0}.model{font-size:15px;line-height:22px;font-weight:650;letter-spacing:.1px;margin:0;color:var(--ink);overflow-wrap:anywhere;text-wrap:balance}.tier{color:var(--tier-ink);background:var(--badge);border-radius:4px;padding:1px 5px;font-size:11px;line-height:16px;font-weight:550;white-space:nowrap}.price{color:#25364a;font-size:22px;line-height:24px;font-weight:650;font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap;flex-shrink:0}.currency{font-size:12px;font-weight:500;margin-right:2px}.price small{color:var(--secondary);font-size:11px;font-weight:400;letter-spacing:0;margin-left:5px;text-decoration:line-through}.specs{display:flex;align-items:center;gap:5px;flex-wrap:wrap;line-height:17px;min-height:17px;font-size:11px;color:var(--secondary);margin-top:3px}.specs span+span:before{content:"·";margin-right:5px}.new-badge{margin-left:auto;color:#316e58;font-size:11px}.specs .new-badge:before{content:"";margin:0}.route{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:10px 0 6px;line-height:20px}.place-label{font-size:11px;color:var(--secondary);line-height:16px}.city{font-size:14px;font-weight:550;line-height:20px;color:#33465c}.route-arrow{color:#74849a;font-size:14px;margin:0 2px}.route-km{margin-left:auto;font-size:11px;line-height:16px;color:#4a6076;background:#eef2f8;border:1px solid #e2e9f2;border-radius:4px;padding:1px 6px;font-variant-numeric:tabular-nums;white-space:nowrap}.trip-detail{display:flex;align-items:center;gap:8px;color:var(--secondary);font-size:12px;line-height:18px;font-variant-numeric:tabular-nums}.days{margin-left:auto;white-space:nowrap;color:var(--secondary)}
-.empty{text-align:center;padding:40px 16px;border:1px dashed #bac9db;border-radius:var(--radius);color:var(--muted);font-size:13px}.empty strong{display:block;color:#3d546d;font-size:15px;font-weight:600;margin-bottom:6px}.empty button{background:var(--selected);color:var(--accent);border:1px solid #bacde1;border-radius:6px;min-height:36px;padding:6px 14px;font-size:12px;margin-top:14px}.more{display:block;margin:20px auto 0;padding:7px 28px;min-height:36px;border:1px solid #c9d6e5;border-radius:6px;background:#fff;color:var(--accent);font-size:12px}.more:hover{background:var(--selected)}.site-footer{display:flex;justify-content:space-between;gap:16px;margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
-.ss{position:relative;min-width:0}.ss-btn{display:flex;align-items:center;gap:8px;text-align:left}.ss-prefix{font-size:11px;color:#53677e;white-space:nowrap}.ss-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ss-car{margin-left:auto;font-size:8px;line-height:1;font-style:normal;color:#667990}.ss-pop{position:absolute;z-index:35;top:calc(100% + 6px);left:0;width:248px;max-width:82vw;padding:8px;background:#fff;border:1px solid #c7d4e4;border-radius:8px;box-shadow:0 8px 22px #233f6017}.ss-q{width:100%;height:36px!important;padding:6px 9px!important;border:1px solid #cbd7e6!important;border-radius:5px!important;font-size:12px}.ss-list{max-height:260px;overflow:auto;margin-top:6px}.ss-item{display:block;width:100%;min-height:34px;padding:6px 9px;border-radius:4px;text-align:left;font-size:12px}.ss-item.on,.ss-item:hover{background:var(--selected);color:var(--accent)}.ss-none{padding:14px;font-size:12px;color:var(--muted)}
-@media(min-width:1680px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
-@media(max-width:1239px){.main{padding:0 24px 24px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:960px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.filter-fields{grid-template-columns:1fr 16px 1fr 1fr;gap:8px}.search-input{grid-column:1/-1}.tier-key{gap:8px;font-size:11px}.quality-count{font-size:11px}}
-@media(max-width:700px){.main{padding:0 16px 20px}.topline{min-height:60px}.title-group{gap:9px}.title-group h1{font-size:18px}.product-label{font-size:11px;padding-left:9px}.live-pill{font-size:11px}.tabs{gap:22px;margin-bottom:12px}.quality-count{display:none}.filter-panel{padding:10px 12px;margin-bottom:16px}.data-status{flex-basis:100%;margin-left:0;text-align:left;font-size:11px}.tier-key{display:none}.sort{margin-left:auto}.card{padding:12px}.grid{gap:10px}.site-footer{font-size:11px}}
-@media(max-width:619px){.grid{grid-template-columns:1fr}.filter-fields{grid-template-columns:1fr 14px 1fr;gap:8px}.class-control{grid-column:1;grid-row:2}.search-input{grid-column:2/4;grid-row:2}.filter-fields input,.ss-btn{height:40px}.class-control select{height:38px}.search-input svg{top:13px}.filter-fields input{font-size:12px}.class-control>span{font-size:11px;padding-left:7px}.class-control select{font-size:11px;padding-left:5px;padding-right:3px}.ss-btn{gap:6px;padding-left:8px;padding-right:8px}.ss-prefix{font-size:11px}.quick-filters{gap:6px}.reset{margin-left:auto}.chip,.reset{min-height:32px}.card-head{gap:8px}.model{font-size:15px}.specs{font-size:11px}.route{margin-top:10px;margin-bottom:6px}.trip-detail{font-size:12px}.results-bar{gap:8px}.result-count{font-size:11px}.sort{max-width:135px;font-size:11px}.site-footer{display:block;line-height:1.9}.site-footer span{display:block}.topline{min-height:58px}.title-group h1{font-size:18px}.product-label{display:none}.demo-banner{font-size:11px;line-height:16px}.tabs{gap:22px;min-height:44px}.nav-item{min-height:44px;font-size:12px}.tab-count{font-size:11px}}
-@media(max-width:359px){.main{padding-left:12px;padding-right:12px}.tabs{gap:16px}.nav-item{gap:5px}.sort{max-width:110px}.card{padding:11px}.model-group{gap:5px}.model{font-size:14px}}
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f6f8"><meta name="description" content="神州租车顺风车车源，按城市、车型、租金和日期筛选比较。"><title>顺风车车源 · 神州租车</title><style>
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · redesign: full
+ * paper: #f5f7fa · accent: #315c87 · display: system UI · body: system UI
+ * nav: inline additive filters · signature: compact car comparison with tier washes
+ * states: loading, empty, error, full · axes: light/grotesk-sans/cool · posture: restrained · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V3 · weakest: V, established inventory has no photography; distinction comes from precise comparison rhythm. */
+/* Hallmark · answered F7 · Shared outlines belong to city fields, native selects and utility buttons; inventory cards remain passive articles with quieter borders and tier surfaces. */
+/* Hallmark · finish-review: subagent · 1 finding · 1 resolved · gap: none · additive vehicle filters now show explicit checked indicators. */
+:root {
+ color-scheme:light; --canvas:#f5f7fa; --surface:#fff; --ink:#243244; --muted:#5d6b7d; --line:#dce3ec; --accent:#315c87; --selected:#eaf1f8; --price:#25364a; --route:#33465c;
+ --control-line:#738298; --control-hover:#5d6b7d; --control-disabled:#edf1f6; --new-text:#316e58; --status-live:#397c62; --status-stale:#9a6a22; --status-error:#a74339; --warning:#8a5d20;
+ --gold-bg:#fffdf7; --gold-ink:#775c20; --gold-badge:#f3ead2; --gold-secondary:#6c6554;
+ --silver-bg:#f6f9fd; --silver-ink:#4e627e; --silver-badge:#e6edf6; --silver-secondary:#5c6d85;
+ --copper-bg:#fdf9f5; --copper-ink:#825a3b; --copper-badge:#f1e6dc; --copper-secondary:#716458;
+ --neutral-ink:#5b6878; --neutral-badge:#eef1f5; --shadow-popup:0 8px 22px #233f6017;
+ --font-body:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; --font-display:var(--font-body);
+ --space-2xs:2px; --space-xs:4px; --space-sm:8px; --space-md:12px; --space-lg:16px; --space-xl:24px; --space-2xl:32px; --space-3xl:40px;
+ --text-xs:11px; --text-sm:12px; --text-control:13px; --text-md:14px; --text-model:15px; --text-title:20px; --text-title-mobile:18px; --text-price:22px;
+ --radius:12px; --radius-control:6px; --radius-badge:4px; --radius-popup:8px; --container:1440px; --gutter:24px; --gap-columns:12px;
+ --control-height:36px; --control-height-mobile:40px; --compact-height:32px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-body);font-size:var(--text-md);line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}button,select{cursor:pointer}button{border:0;background:none}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+button:active{color:var(--accent);background:var(--selected)}
+button:disabled,input:disabled,select:disabled{cursor:not-allowed;opacity:.7;background:var(--control-disabled);color:var(--muted)}
+input{caret-color:var(--accent)}::selection{background:var(--selected);color:var(--ink)}[hidden]{display:none!important}
+h1,h2,h3{font-family:var(--font-display);min-width:0;overflow-wrap:break-word;text-wrap:balance}svg{flex-shrink:0}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+.main{max-width:var(--container);margin-inline:auto;padding:0 var(--gutter) var(--space-xl)}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:var(--space-lg);min-height:76px}
+.title-group{display:flex;align-items:baseline;gap:var(--space-md)}.title-group h1{margin:0;font-size:var(--text-title);line-height:28px;font-weight:650}.product-label{color:var(--muted);font-size:var(--text-sm)}
+.sync-info{text-align:right;min-width:0}.live-pill{display:flex;align-items:center;justify-content:flex-end;gap:var(--space-sm);font-size:var(--text-sm);color:var(--muted)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--status-live)}.dot.stale{background:var(--status-stale)}.dot.err{background:var(--status-error)}
+.data-status{font-size:var(--text-xs);color:var(--muted)}.data-status.warning{color:var(--warning)}.demo-banner{margin:0 0 var(--space-sm);color:var(--warning);font-size:var(--text-xs)}
+.filter-panel{padding:var(--space-md) var(--space-lg) 0;margin-bottom:var(--space-lg);border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.filter-fields{display:grid;grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr) minmax(0,.85fr) minmax(0,1.3fr);align-items:center;gap:var(--space-sm)}
+.filter-fields input,.filter-fields select,.ss-btn{height:var(--control-height);width:100%;border:1px solid var(--control-line);border-radius:var(--radius-control);padding:var(--space-xs) var(--space-sm);background:var(--surface);font-size:var(--text-sm);line-height:22px}
+.filter-fields input::placeholder{color:var(--muted);opacity:1}.filter-fields input:hover,.filter-fields select:hover,.ss-btn:hover{border-color:var(--control-hover)}.filter-arrow{color:var(--muted);text-align:center}
+.search-input{position:relative;min-width:0}.search-input svg{position:absolute;left:var(--space-sm);top:11px;color:var(--muted)}.search-input input{padding-left:var(--space-2xl)}
+.class-control{position:relative;display:flex;align-items:center;min-width:0}.class-control>span{position:absolute;left:var(--space-sm);font-size:var(--text-xs);color:var(--muted);pointer-events:none}.class-control select{padding-left:var(--space-3xl)}
+.tabs{display:flex;align-items:center;gap:var(--space-xl);min-height:44px;margin-top:var(--space-xs)}
+.nav-item{position:relative;display:flex;align-items:center;gap:var(--space-sm);min-height:40px;padding:var(--space-sm) 0;color:var(--muted);font-size:var(--text-sm);white-space:nowrap}
+.nav-item:hover{color:var(--accent)}.nav-item.active{color:var(--accent);font-weight:650}.nav-item.active::after{content:"";position:absolute;inset:auto 0 0;height:2px;background:var(--accent)}
+.nav-item[data-nav="one"]::after,.nav-item[data-nav="new"]::after{display:none}.filter-check path{display:none}.nav-item.on .filter-check path{display:initial}
+.tab-count{color:inherit;font-size:var(--text-xs);font-weight:400;font-variant-numeric:tabular-nums}.reset{margin-left:auto;min-height:var(--compact-height);padding:var(--space-xs) var(--space-sm);border-radius:var(--radius-control);color:var(--accent);font-size:var(--text-xs);white-space:nowrap}.reset:hover{background:var(--selected)}
+.results-bar{display:flex;align-items:center;gap:var(--space-sm);min-height:var(--compact-height);margin-bottom:var(--space-md)}.results-bar h2{margin:0;font-size:var(--text-md);line-height:20px;font-weight:650}
+.result-count,.quality-count{color:var(--muted);font-size:var(--text-sm);font-variant-numeric:tabular-nums}.quality-count{margin-left:var(--space-sm)}.quality-count b{color:var(--route);font-weight:550}
+.tier-key{display:flex;align-items:center;gap:var(--space-md);margin-left:auto;color:var(--muted);font-size:var(--text-xs)}.tier-key span{border-bottom:2px solid var(--muted);padding-bottom:var(--space-2xs)}.tier-key .key1{border-color:var(--gold-ink)}.tier-key .key2{border-color:var(--silver-ink)}.tier-key .key3{border-color:var(--copper-ink)}
+.sort{height:var(--compact-height);max-width:175px;margin-left:var(--space-sm);padding:var(--space-xs) var(--space-sm);border:1px solid var(--control-line);border-radius:var(--radius-control);background:var(--surface);font-size:var(--text-xs);color:var(--route)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap-columns)}
+.card{--card-bg:var(--surface);--tier-ink:var(--neutral-ink);--badge:var(--neutral-badge);--secondary:var(--muted);min-width:0;padding:var(--space-md) var(--space-lg);border:1px solid var(--line);border-radius:var(--radius);background:var(--card-bg)}
+.card.t1{--card-bg:var(--gold-bg);--tier-ink:var(--gold-ink);--badge:var(--gold-badge);--secondary:var(--gold-secondary)}.card.t2{--card-bg:var(--silver-bg);--tier-ink:var(--silver-ink);--badge:var(--silver-badge);--secondary:var(--silver-secondary)}.card.t3{--card-bg:var(--copper-bg);--tier-ink:var(--copper-ink);--badge:var(--copper-badge);--secondary:var(--copper-secondary)}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-sm)}.model-group{display:flex;align-items:baseline;flex-wrap:wrap;gap:var(--space-xs) var(--space-sm);min-width:0}.model{margin:0;color:var(--ink);font-size:var(--text-model);line-height:22px;font-weight:650;overflow-wrap:anywhere}
+.tier{padding:0 var(--space-xs);border-radius:var(--radius-badge);color:var(--tier-ink);background:var(--badge);font-size:var(--text-xs);line-height:18px;font-weight:550;white-space:nowrap}
+.price{flex-shrink:0;color:var(--price);font-size:var(--text-price);line-height:24px;font-weight:650;font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap}.currency{margin-right:var(--space-2xs);font-size:var(--text-sm);font-weight:400}.price small{margin-left:var(--space-xs);color:var(--secondary);font-size:var(--text-xs);font-weight:400;letter-spacing:0;text-decoration:line-through}
+.route{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;column-gap:var(--space-sm);row-gap:var(--space-2xs);margin-top:var(--space-sm);margin-bottom:var(--space-xs);line-height:20px}
+.route-cities{display:flex;align-items:baseline;gap:var(--space-xs);min-width:0;flex-wrap:wrap}.place-label{color:var(--secondary);font-size:var(--text-xs)}.city{color:var(--route);font-size:var(--text-md);font-weight:550}.route-arrow{margin-inline:var(--space-xs);color:var(--muted);font-size:var(--text-sm)}.route-km{margin-left:auto;color:var(--secondary);font-size:var(--text-xs);line-height:18px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.trip-detail{display:flex;align-items:baseline;gap:var(--space-sm);font-size:var(--text-sm);line-height:18px;font-variant-numeric:tabular-nums;color:var(--secondary)}.days{margin-left:auto;white-space:nowrap}
+.specs{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:var(--space-sm);margin-top:var(--space-sm);color:var(--secondary);font-size:var(--text-xs);line-height:17px;min-height:17px}.new-badge{margin-left:auto;color:var(--new-text);white-space:nowrap}
+.empty{padding:var(--space-3xl) var(--space-lg);border:1px dashed var(--control-line);border-radius:var(--radius);color:var(--muted);font-size:var(--text-control);text-align:center}.empty strong{display:block;margin-bottom:var(--space-sm);color:var(--route);font-size:var(--text-model);font-weight:600}.empty button,.more{min-height:var(--control-height);padding:var(--space-sm) var(--space-xl);border:1px solid var(--control-line);border-radius:var(--radius-control);background:var(--surface);color:var(--accent);font-size:var(--text-sm)}.empty button{margin-top:var(--space-lg)}.more{display:block;margin:var(--space-xl) auto 0}.empty button:hover,.more:hover{background:var(--selected)}
+.site-footer{display:flex;justify-content:space-between;gap:var(--space-lg);margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--line);color:var(--muted);font-size:var(--text-xs)}
+.ss{position:relative;min-width:0}.ss-btn{display:flex;align-items:center;gap:var(--space-sm);text-align:left}.ss-prefix{color:var(--muted);font-size:var(--text-xs);white-space:nowrap}.ss-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ss-car{margin-left:auto;color:var(--muted);font-size:var(--text-xs);line-height:1;font-style:normal}
+.ss-pop{position:absolute;z-index:35;top:calc(100% + var(--space-sm));left:0;width:248px;max-width:82vw;padding:var(--space-sm);background:var(--surface);border:1px solid var(--control-line);border-radius:var(--radius-popup);box-shadow:var(--shadow-popup)}.ss-q{width:100%;height:var(--control-height)!important;padding:var(--space-xs) var(--space-sm)!important;border:1px solid var(--control-line)!important;border-radius:var(--radius-control)!important;font-size:var(--text-sm)}.ss-list{max-height:260px;overflow:auto;margin-top:var(--space-xs)}.ss-item{display:block;width:100%;min-height:var(--control-height);padding:var(--space-sm);border-radius:var(--radius-badge);font-size:var(--text-sm);text-align:left;white-space:nowrap}.ss-item.on,.ss-item:hover{background:var(--selected);color:var(--accent)}.ss-none{padding:var(--space-md);color:var(--muted);font-size:var(--text-sm)}
+@media(max-width:1199px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.quality-count{display:none}}
+@media(max-width:960px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.filter-fields{grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr) minmax(0,1fr)}.search-input{grid-column:1/-1}}
+@media(max-width:700px){:root{--gutter:16px}.topline{min-height:72px}.title-group{gap:var(--space-sm)}.title-group h1{font-size:var(--text-title-mobile)}.product-label{display:none}.live-pill{font-size:var(--text-xs)}.data-status{max-width:180px}.tier-key{display:none}.sort{margin-left:auto}.card{padding:var(--space-md)}.site-footer{display:block;line-height:1.9}.site-footer span{display:block}}
+@media(max-width:619px){.grid{grid-template-columns:minmax(0,1fr)}.filter-panel{padding:var(--space-md) var(--space-md) 0}.filter-fields{grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr)}.class-control{grid-column:1;grid-row:2}.search-input{grid-column:2/4;grid-row:2}.filter-fields input,.filter-fields select,.ss-btn{height:var(--control-height-mobile)}.search-input svg{top:13px}.class-control>span{display:none}.class-control select{padding-left:var(--space-xs);padding-right:var(--space-xs);font-size:var(--text-xs)}.ss-btn{gap:var(--space-xs)}.tabs{gap:var(--space-lg)}.nav-item{gap:var(--space-xs);font-size:var(--text-xs)}.reset{padding-inline:0}.sort{max-width:132px}.result-count{font-size:var(--text-xs)}}
+@media(max-width:359px){:root{--gutter:12px}.tabs{gap:var(--space-md)}.nav-item{gap:var(--space-2xs)}.reset{font-size:var(--text-xs)}.sort{max-width:112px}.data-status{max-width:158px;font-size:var(--text-xs)}}
+@media(max-width:619px){.filter-word{display:none}}
+
 </style></head><body>
+<noscript>请启用 JavaScript 以筛选并查看车源。</noscript>
 <main class="main" id="top">
-  <header class="topline"><div class="title-group"><h1>顺风车车源</h1><span class="product-label">神州租车</span></div><div class="live-pill"><span id="dot" class="dot stale"></span><span id="liveText">正在读取车源</span></div></header>
+  <header class="topline"><div class="title-group"><h1>顺风车车源</h1><span class="product-label">神州租车</span></div><div class="sync-info"><div class="live-pill"><span id="dot" class="dot stale"></span><span id="liveText">正在读取车源</span></div><div class="data-status" id="dataStatus"><span id="updated" role="status">正在读取数据…</span></div></div></header>
   
-  <nav class="tabs" aria-label="车源范围">
-    <button class="nav-item active" data-nav="all" aria-pressed="true">全部车源<span class="tab-count" id="total">—</span></button>
-    <button class="nav-item" data-nav="one" aria-pressed="false">一元车源<span class="tab-count" id="oneCount">—</span></button>
-    <button class="nav-item" data-nav="new" aria-pressed="false">本轮新增<span class="tab-count" id="newCount">—</span></button>
-    <span class="quality-count">中档及以上 <b id="goodCount">—</b> 台</span>
-  </nav>
-  <section class="filter-panel" aria-label="筛选车源">
+<section class="filter-panel" aria-label="筛选车源">
     <div class="filter-fields">
       <div class="ss" id="ssFrom"></div><span class="filter-arrow" aria-hidden="true">→</span><div class="ss" id="ssTo"></div>
       <div class="class-control"><span aria-hidden="true">类别</span><select id="cls" aria-label="车辆类别"><option value="">全部类别</option></select></div>
       <div class="search-input"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="q" type="search" aria-label="搜索车型或城市" placeholder="车型 / 城市" autocomplete="off"></div>
     </div>
-    <div class="quick-filters"><button id="only1" class="chip" aria-pressed="false">¥1 车源</button><button id="onlynew" class="chip" aria-pressed="false">仅看新增</button><button id="reset" class="reset">重置筛选</button><div class="data-status" id="dataStatus"><span id="updated" role="status">正在读取数据…</span></div></div>
+  <nav class="tabs" aria-label="车源范围">
+    <button class="nav-item active" data-nav="all" aria-pressed="true">全部车源<span class="tab-count" id="total">待更新</span></button>
+    <button class="nav-item" id="only1" data-nav="one" aria-pressed="false"><svg class="filter-check" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" aria-hidden="true"><rect x=".5" y=".5" width="11" height="11" rx="2"/><path d="m3 6 2 2 4-4"/></svg><span>一元<span class="filter-word">车源</span></span><span class="tab-count" id="oneCount">待更新</span></button>
+    <button class="nav-item" id="onlynew" data-nav="new" aria-pressed="false"><svg class="filter-check" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" aria-hidden="true"><rect x=".5" y=".5" width="11" height="11" rx="2"/><path d="m3 6 2 2 4-4"/></svg><span><span class="filter-word">本轮</span>新增</span><span class="tab-count" id="newCount">待更新</span></button>
+
+  <button id="reset" class="reset">重置筛选</button></nav>
   </section>
   <section id="board" aria-label="车源列表">
-    <div class="results-bar"><h2>可选车源</h2><span class="result-count" id="resultCount" role="status">正在加载…</span><div class="tier-key" aria-label="档次颜色"><span class="key1">尊享</span><span class="key2">高级</span><span class="key3">中档</span><span class="key4">入门</span></div><select id="sort" class="sort" aria-label="车源排序"><option value="rank-desc">档次优先</option><option value="price-asc">租金从低到高</option><option value="id-desc">车源编号从新到旧</option><option value="days-asc">租期从短到长</option></select></div>
+    <div class="results-bar"><h2>可选车源</h2><span class="result-count" id="resultCount" role="status">正在加载…</span>    <span class="quality-count">中档及以上 <b id="goodCount">待更新</b> 台</span><div class="tier-key" aria-label="档次颜色"><span class="key1">尊享</span><span class="key2">高级</span><span class="key3">中档</span><span class="key4">入门</span></div><select id="sort" class="sort" aria-label="车源排序"><option value="rank-desc">档次优先</option><option value="price-asc">租金从低到高</option><option value="id-desc">车源编号从新到旧</option><option value="days-asc">租期从短到长</option></select></div>
     <div class="grid" id="grid"></div>
     <div class="empty" id="empty" hidden><strong id="emptyTitle">暂时没有符合条件的车源</strong>请调整城市、类别或关键词。<br><button id="emptyReset">清空筛选</button></div>
-    <button class="more" id="more" hidden>查看更多车源 ↓</button>
+    <button class="more" id="more" hidden>查看更多车源</button>
   </section>
-  <footer class="site-footer"><span>数据来源：神州租车 · 仅供个人比价参考</span><span>页面每 2 分钟读取数据 · 预订请前往神州租车 App</span></footer>
+  <footer class="site-footer"><span>数据来源：神州租车，仅供个人比价参考</span><span>页面每 2 分钟读取数据，预订请前往神州租车 App</span></footer>
 </main>
 <script>
 const PAGE = 60;
@@ -101,21 +160,21 @@ function render(reset){
     const el=document.createElement('article'),t=tier(d.rank);
     el.className='card t'+t;
     const specs=[d.body,d.seats,d.energy].filter(Boolean).map(s=>'<span>'+esc(s)+'</span>').join('');
-    const km=Number(d.km||0),drive=Number(d.drive||0),kmHtml=drive>0?'<span class="route-km" title="驾车里程（OSRM / OpenStreetMap 路网）'+(km>0?' · 直线 '+km.toLocaleString('en-US')+' km':'')+'">驾车 '+drive.toLocaleString('en-US')+' km</span>':(km>0?'<span class="route-km" title="直线距离（非驾车里程）；驾车里程尚未算出">直线 '+km.toLocaleString('en-US')+' km</span>':(km===0&&d.from===d.to?'<span class="route-km">同城</span>':''));
+    const km=Number(d.km||0),drive=Number(d.drive||0),kmHtml=drive>0?'<span class="route-km" title="驾车里程（OSRM / OpenStreetMap 路网）'+(km>0?'，直线 '+km.toLocaleString('en-US')+' km':'')+'">驾车 '+drive.toLocaleString('en-US')+' km</span>':(km>0?'<span class="route-km" title="直线距离（非驾车里程）；驾车里程尚未算出">直线 '+km.toLocaleString('en-US')+' km</span>':(km===0&&d.from===d.to?'<span class="route-km">同城</span>':''));
     el.innerHTML='<div class="card-head"><div class="model-group"><h3 class="model">'+esc(d.model)+'</h3><span class="tier lv'+t+'">'+TIER_NAME[t]+'</span></div>'+
       '<div class="price" aria-label="租金 '+esc(d.price)+' 元"><span class="currency">¥</span>'+esc(d.price)+
       (d.est&&Number(d.est)>Number(d.price)?'<small>¥'+esc(d.est)+'</small>':'')+'</div></div>'+
+      '<div class="route" aria-label="从 '+esc(d.from)+' 取车，到 '+esc(d.to)+' 还车'+(drive>0?'，驾车里程约 '+drive+' 公里':(km>0?'，直线距离约 '+km+' 公里':''))+'"><span class="route-cities"><span class="place-label">取</span><span class="city">'+esc(d.from)+'</span><span class="route-arrow" aria-hidden="true">→</span><span class="place-label">还</span><span class="city">'+esc(d.to)+'</span></span>'+kmHtml+'</div>'+
+      '<div class="trip-detail"><span>'+esc(d.bd)+' 至 '+esc(d.ed)+'</span><span class="days">'+esc(d.days)+' 天</span></div>'+
       '<div class="specs"><span class="category">'+esc(d.cls||'')+'</span>'+specs+
-      (NEW.has(String(d.id))?'<span class="new-badge">本轮新增</span>':'')+'</div>'+
-      '<div class="route" aria-label="从 '+esc(d.from)+' 取车，到 '+esc(d.to)+' 还车'+(drive>0?'，驾车里程约 '+drive+' 公里':(km>0?'，直线距离约 '+km+' 公里':''))+'"><span class="place-label">取</span><span class="city">'+esc(d.from)+'</span><span class="route-arrow" aria-hidden="true">→</span><span class="place-label">还</span><span class="city">'+esc(d.to)+'</span>'+kmHtml+'</div>'+
-      '<div class="trip-detail"><span>'+esc(d.bd)+' – '+esc(d.ed)+'</span><span class="days">'+esc(d.days)+' 天</span></div>';
+      (NEW.has(String(d.id))?'<span class="new-badge">本轮新增</span>':'')+'</div>';
     el.setAttribute('title','车源编号 '+String(d.id));
     frag.appendChild(el);
   }
   if(reset)g.innerHTML='';
   g.appendChild(frag);shown+=part.length;
   $('#more').hidden=shown>=view.length;
-  $('#more').textContent='再看 '+Math.min(PAGE,view.length-shown)+' 台车源 ↓';
+  $('#more').textContent='再看 '+Math.min(PAGE,view.length-shown)+' 台车源';
 }
 function fillSelect(sel, cur, allLabel, values){
   sel.innerHTML='<option value="">'+allLabel+'</option>';
@@ -208,8 +267,8 @@ function updateSummary(j){
   const stale=!j.updatedAt||Date.now()-j.updatedAt>3600e3;
   $('#dot').className='dot'+(j.error?' err':stale?' stale':'');
   $('#liveText').textContent=j.error?'数据更新异常':stale?'当前为历史快照':'数据自动更新中';
-  $('#updated').textContent=(j.error?'更新异常，保留上次数据 · ':'更新于 ')+fmtAgo(j.updatedAt)+
-    (j.total!=null&&Number(j.total)!==DATA.length?' · 接口总量 '+j.total+' 台，当前载入 '+DATA.length+' 台':'');
+  $('#updated').textContent=(j.error?'更新异常，保留上次数据，':'更新于 ')+fmtAgo(j.updatedAt)+
+    (j.total!=null&&Number(j.total)!==DATA.length?'，接口总量 '+j.total+' 台，当前载入 '+DATA.length+' 台':'');
   $('#dataStatus').classList.toggle('warning',!!j.error||stale);
   $('#dataStatus').title=j.error?String(j.error):'后台每 10 分钟抓取，页面每 2 分钟读取数据';
 }
@@ -227,7 +286,7 @@ async function load(first){
     DATA=j.items;NEW=new Set((j.newIds||[]).map(String));
     updateSummary(j);buildSelects();apply();
   }catch(e){
-    $('#updated').textContent='暂时无法读取数据，将在下次刷新重试'+(DATA.length?' · 已保留当前车源':'');
+    $('#updated').textContent='暂时无法读取数据，将在下次刷新重试'+(DATA.length?'，已保留当前车源':'');
     $('#dot').className='dot err';$('#liveText').textContent='数据读取失败';
     $('#dataStatus').classList.add('warning');
     if(!DATA.length){$('#empty').hidden=false;$('#emptyTitle').textContent='车源数据暂未就绪';}
@@ -247,10 +306,10 @@ $('#reset').onclick=resetFilters;
 $('#emptyReset').onclick=resetFilters;
 $('#more').onclick=()=>render(false);
 document.querySelectorAll('[data-nav]').forEach(btn=>btn.onclick=()=>{
-  resetFilters();
-  if(btn.dataset.nav==='one')$('#only1').classList.add('on');
-  if(btn.dataset.nav==='new')$('#onlynew').classList.add('on');
-  apply();document.getElementById('board').scrollIntoView({block:'start'});
+  if(btn.dataset.nav==='all'){
+    $('#only1').classList.remove('on');$('#onlynew').classList.remove('on');
+  }else btn.classList.toggle('on');
+  apply();
 });
 load(true);
 if(!document.getElementById('snapshot-data'))setInterval(()=>load(false),120000);

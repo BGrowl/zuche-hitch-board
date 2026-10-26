@@ -260,6 +260,29 @@ def save_state(st):
     os.replace(tmp, STATE_FILE)
 
 
+def seed_baseline(rows, log=None):
+    """新进程/新沙箱的**首轮**：把当前全量标记为已读，清空待汇总，本轮不推送。
+
+    为什么必须这么做：数据源的库存量波动很大（实测同一接口在 825~1198 之间跳），
+    任何"拿发布前的 data.json 当基线"的做法，都会漏掉波动进来的那部分 ——
+    它们会在首轮被整批判成"新增"。2026-10-26 就是这样：seed 了 825 台，
+    首轮抓到 1198 台，430 个新 id 里 169 台达标，直接被推了出去。
+
+    本质上，新沙箱首轮的 newIds 是"全量 vs 空集合"的对比，没有增量含义，
+    推它一定是错的。所以首轮只建基线，从第二轮起才做真正的增量推送。
+    """
+    st = load_state()
+    ids = [r.get("id") for r in rows if r.get("id")]
+    st["sentIds"] = list(dict.fromkeys((st.get("sentIds") or []) + sorted(ids)))
+    st["pendingIds"] = []                    # 顺手清掉上一版残留的待汇总
+    st["seededAt"] = int(time.time() * 1000)
+    save_state(st)
+    if log:
+        log("首轮建基线：%d 台标记为已读（累计 %d），本轮不推送"
+            % (len(ids), len(st["sentIds"])))
+    return len(ids)
+
+
 def _post_json(url, obj, timeout=25):
     """POST JSON，返回解析后的 dict。网络/解析异常直接抛。"""
     data = json.dumps(obj, ensure_ascii=False).encode("utf-8")

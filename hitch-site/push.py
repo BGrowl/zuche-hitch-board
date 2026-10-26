@@ -840,6 +840,9 @@ def last_summary():
         "pending": len(pend),                               # 还攒着几台待汇总
         "pendingModels": [r.get("model") for r in pend[:20]],
         "nextSummaryAt": st.get("nextSummaryAt"),           # 下次汇总到点时间
+        "watchRoute": st.get("lastWatchRoute"),             # 上次触发的是哪条专线
+        "watchItems": st.get("lastWatchItems") or [],       # 该专线推了哪几台
+        "watchAt": st.get("lastWatchAt"),
     }
 
 
@@ -862,6 +865,40 @@ def _mk_pairs(records, cfg=None):
     if mx:
         pairs = pairs[: int(mx)]
     return pairs
+
+
+def watch_hit(cfg, rows, ids):
+    """专线盯车：从**本轮新出现**的车里，筛出命中 `watchRoutes` 的达标车。
+
+    返回 [(route_cfg, pairs), ...]，每条专线一组。配置见 push-config.json：
+
+        "watchRoutes": [{"name": "丽江→大理", "from": "丽江", "to": "大理", "min_tier": 3}]
+
+    · 只认 `ids`（即本轮 fresh）—— 刚加一条专线时，线上已有的存量车**不会**被推出来。
+    · 方向严格按 from → to，不做双向（要反向就再加一条）。
+    · `min_tier` 缺省沿用全局门槛（3 = 中档以上）。
+    """
+    routes = cfg.get("watchRoutes") or []
+    if not routes or not ids:
+        return []
+    by_id = {r.get("id"): r for r in rows}
+    out = []
+    for rt in routes:
+        if not isinstance(rt, dict):
+            continue
+        f = (rt.get("from") or "").strip()
+        t = (rt.get("to") or "").strip()
+        if not f or not t:
+            continue
+        mt = int(rt.get("min_tier") or cfg.get("min_tier") or DEFAULT_MIN_TIER)
+        got = [r for r in (by_id.get(i) for i in ids)
+               if r
+               and (r.get("from") or "").strip() == f
+               and (r.get("to") or "").strip() == t
+               and tier(r.get("rank")) <= mt]
+        if got:
+            out.append((rt, _mk_pairs(got, cfg)))
+    return out
 
 
 def _deliver(cfg, ch, pairs, title):
@@ -1010,6 +1047,29 @@ def push_new(rows, new_ids, log=print):
 
     if every > 0:
         st["nextSummaryAt"] = int(st.get("lastSummaryAt") or now_ms) + every * 1000
+
+    # ---- ⑤ 专线盯车：配置里指定的线路，本轮一冒头就**单独多推一条** ----
+    # 与常规即时推送**有意重叠**（专线的作用就是把它单独拎出来提醒）；
+    # 放在汇总之后调用，这样 sent_total 的变化不会影响上面的汇总锚点判定。
+    # 只在 fresh 里找 —— 刚加专线时线上已有的存量车不会被翻出来推。
+    watch_n = 0
+    try:
+        hits = watch_hit(cfg, rows, fresh)
+    except Exception as exc:                             # noqa: BLE001
+        hits = []
+        notes.append("专线判定异常：%s" % exc)
+    for rt, wpairs in hits:
+        name = (rt.get("name") or "").strip() or "%s→%s" % (rt.get("from"), rt.get("to"))
+        n, info = _deliver(cfg, ch, wpairs, "%s 专线 · 新增 %d 台" % (name, len(wpairs)))
+        if n:
+            watch_n += n
+            sent_total += n
+            st["lastWatchAt"] = int(time.time() * 1000)
+            st["lastWatchRoute"] = name
+            st["lastWatchItems"] = [_item_brief(t, r) for t, r in wpairs]
+            notes.append("%s 专线 %d 台" % (name, n))
+        else:
+            notes.append("%s 专线失败：%s" % (name, info))
 
     save_state(st)
 

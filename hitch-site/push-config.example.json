@@ -20,5 +20,10 @@
   "max_items": 0,
   "cooldown_sec": 0,
   "pushImmediate": true,
-  "push_every_sec": 3600
+  "push_every_sec": 3600,
+
+  "_watch说明": "专线盯车：列在这里的线路，只要本轮新出现达标新车，就**单独多推一条**（与常规推送有意重叠，不影响网页）。min_tier=3 只盯中档以上(rank>=70)，设 4 则连入门也要；方向严格 from→to，要双向就写两条。只推本轮新出现的车，加专线时线上已有的存量不会被翻出来。",
+  "watchRoutes": [
+    {"name": "丽江→大理", "from": "丽江", "to": "大理", "min_tier": 3}
+  ]
 }

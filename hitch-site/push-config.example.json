@@ -2,28 +2,42 @@
   "_说明": "推送配置模板。复制为 push-config.json 后填入自己的凭据；push-config.json 已被 .gitignore 忽略，不要提交。channel=auto 时优先级：企业微信机器人 → 微信测试号 → PushPlus → WxPusher。min_tier=3 只推『尊享/高级/中档』(rank>=70)。pushImmediate=是否即时推；push_every_sec=小时汇总周期，0 表示关闭。",
   "enabled": false,
   "channel": "auto",
-
   "wecomWebhook": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=YOUR_KEY_HERE",
   "wecomMsgType": "text",
-
   "mpAppId": "",
   "mpAppSecret": "",
   "mpTemplateId": "",
   "mpOpenIds": [],
   "mpUrl": "",
-
   "token": "",
   "appToken": "",
   "uids": [],
-
   "min_tier": 3,
   "max_items": 0,
   "cooldown_sec": 0,
   "pushImmediate": true,
   "push_every_sec": 3600,
-
   "_watch说明": "专线盯车：列在这里的线路，只要本轮新出现达标新车，就**单独多推一条**（与常规推送有意重叠，不影响网页）。min_tier=3 只盯中档以上(rank>=70)，设 4 则连入门也要；方向严格 from→to，要双向就写两条。只推本轮新出现的车，加专线时线上已有的存量不会被翻出来。",
   "watchRoutes": [
-    {"name": "丽江→大理", "from": "丽江", "to": "大理", "min_tier": 3}
-  ]
+    {
+      "name": "丽江→大理",
+      "from": "丽江",
+      "to": "大理",
+      "min_tier": 3
+    }
+  ],
+  "email": {
+    "_说明": "邮件通道，**只跟专线**走（watchRoutes 命中才发，常规即时/汇总不发）。QQ/163 的 mailPass 填【授权码】不是登录密码；mailFrom 必须与登录邮箱一致，否则 QQ 拒发。ssl=ssl 走 465（推荐），ssl=starttls 走 587。",
+    "enabled": false,
+    "smtpHost": "smtp.qq.com",
+    "smtpPort": 465,
+    "ssl": "ssl",
+    "mailUser": "YOUR_ACCOUNT@qq.com",
+    "mailPass": "YOUR_SMTP_AUTH_CODE",
+    "mailFrom": "YOUR_ACCOUNT@qq.com",
+    "mailTo": [
+      "YOUR_ACCOUNT@qq.com"
+    ]
+  },
+  "mailProbeToken": "RANDOM_STRING_FOR_/mailcheck?send=1"
 }

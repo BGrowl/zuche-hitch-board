@@ -199,6 +199,8 @@ def load_config():
 
     cfg["mpOpenIds"] = _as_list(cfg.get("mpOpenIds"))
     cfg["uids"] = _as_list(cfg.get("uids"))
+    if isinstance(cfg.get("email"), dict):
+        cfg["email"]["mailTo"] = _as_list(cfg["email"].get("mailTo"))
     return cfg
 
 
@@ -482,6 +484,94 @@ def wecom_send(webhook, content, msgtype=WECOM_MSGTYPE, timeout=25):
     return False, "企业微信返回 %s：%s" % (j.get("errcode"), j.get("errmsg"))
 
 
+# --------------------------------------------------------------------------
+# 5) email —— **专线专用**（2026-10-27 新增）
+#    只把 watchRoutes 命中的车发到邮箱，不走常规即时/汇总推送（否则一天几十封）。
+#    配置（push-config.json 的 "email" 段）：
+#      {"enabled": true, "smtpHost": "smtp.qq.com", "smtpPort": 465,
+#       "ssl": "ssl",                    # ssl(465) 或 starttls(587)
+#       "mailUser": "xxx@qq.com",        # 登录账号
+#       "mailPass": "授权码",             # ⚠️ QQ/163 用授权码，不是登录密码
+#       "mailFrom": "xxx@qq.com",        # 必须与登录账号一致，否则 QQ 拒发
+#       "mailTo": ["xxx@qq.com"]}
+# --------------------------------------------------------------------------
+def _mail_cfg(cfg):
+    m = (cfg or {}).get("email")
+    return m if isinstance(m, dict) else {}
+
+
+def _has_mail(cfg):
+    m = _mail_cfg(cfg)
+    return bool(m.get("enabled")
+                and str(m.get("smtpHost") or "").strip()
+                and str(m.get("mailFrom") or "").strip()
+                and _as_list(m.get("mailTo")))
+
+
+def email_send(cfg, subject, body, timeout=20):
+    """发一封纯文本邮件。返回 (ok, info)。失败绝不假装成功。"""
+    m = _mail_cfg(cfg)
+    if not _has_mail(cfg):
+        return False, "未配置 email（smtpHost / mailFrom / mailTo）"
+    host = str(m.get("smtpHost")).strip()
+    port = int(m.get("smtpPort") or 465)
+    user = str(m.get("mailUser") or m.get("mailFrom")).strip()
+    pwd = str(m.get("mailPass") or "")
+    frm = str(m.get("mailFrom")).strip()
+    to = _as_list(m.get("mailTo"))
+    mode = str(m.get("ssl") or "ssl").strip().lower()
+
+    import smtplib                                       # 放到函数内：不影响没配邮件的部署
+    from email.header import Header
+    from email.mime.text import MIMEText
+    from email.utils import formataddr
+
+    msg = MIMEText(body, "plain", "utf-8")
+    msg["Subject"] = Header(subject, "utf-8")
+    msg["From"] = formataddr((str(Header("顺风车看板", "utf-8")), frm))
+    msg["To"] = ", ".join(to)
+
+    srv = None
+    try:
+        if mode in ("ssl", "smtps"):
+            srv = smtplib.SMTP_SSL(host, port, timeout=timeout)
+        else:
+            srv = smtplib.SMTP(host, port, timeout=timeout)
+        srv.ehlo()
+        if mode not in ("ssl", "smtps"):
+            srv.starttls()
+            srv.ehlo()
+        if user:
+            srv.login(user, pwd)
+        srv.sendmail(frm, to, msg.as_string())
+    except Exception as exc:                             # noqa: BLE001
+        return False, "%s: %s" % (type(exc).__name__, exc)
+    finally:
+        if srv is not None:
+            try:
+                srv.quit()
+            except Exception:                            # noqa: BLE001
+                pass
+    return True, "已发往 %s" % ", ".join(to)
+
+
+def render_mail(pairs, title, url=""):
+    """邮件正文：纯文本，沿用推送那套「一台车三行」，不分页（邮件没字节上限）。"""
+    lines = [title, ""]
+    for i, (t, r) in enumerate(pairs, 1):
+        lines.append("%d. 【%s】 %s  ¥%s" % (i, TIER_NAME.get(t, ""),
+                                            (r.get("model") or "").strip(),
+                                            r.get("price") or "-"))
+        lines.append("   %s → %s" % (r.get("from") or "", r.get("to") or ""))
+        third = _third_line(r)
+        if third:
+            lines.append("   " + third)
+        lines.append("")
+    if url:
+        lines.append("完整看板：%s" % url)
+    return "\n".join(lines)
+
+
 def send(cfg, channel, title, content):
     """把消息交给指定通道。返回 (ok, info)。"""
     if channel == "wecom":
@@ -596,6 +686,35 @@ def _dist_txt(r):
     return "·".join(parts)
 
 
+def _third_line(r):
+    """推送/邮件里那行「距离 · 租期 · 起租日」，例如 `761km · 4天 · 10月20日起`。
+
+    距离优先用**驾车里程**（drive，OSRM 真实路网），没有则退回直线（km）；
+    两者都没有就只显示租期。天数是 limitTenancyDay（接口字段 days）。
+    """
+    bits = []
+    try:
+        drive = int(r.get("drive") or 0)
+    except Exception:                                      # noqa: BLE001
+        drive = 0
+    if drive > 0:
+        bits.append("%dkm" % drive)
+    else:
+        try:
+            km = int(r.get("km") or 0)
+        except Exception:                                  # noqa: BLE001
+            km = 0
+        if km > 0:
+            bits.append("直线%dkm" % km)
+    days = r.get("days")
+    if days not in (None, "", 0, "0"):
+        bits.append("%s天" % days)
+    bd = (r.get("bd") or "").strip()
+    if bd:
+        bits.append("%s起" % bd)
+    return " · ".join(bits)
+
+
 def _paginate(item_lines, head_fn, foot_lines, limit):
     """逐行贪心装填 + 页眉页脚，返回 (pages, ranges)。
 
@@ -685,28 +804,9 @@ def render_text_paged(pairs, url="", limit=None, title=None):
                                           r.get("price") or "-"))
         seg.append("　 %s → %s" % (r.get("from") or "", r.get("to") or ""))
 
-        bits = []                                          # 第三行：距离 · 租期 · 起租日
-        try:
-            drive = int(r.get("drive") or 0)
-        except Exception:                                  # noqa: BLE001
-            drive = 0
-        if drive > 0:
-            bits.append("%dkm" % drive)
-        else:
-            try:
-                km = int(r.get("km") or 0)
-            except Exception:                              # noqa: BLE001
-                km = 0
-            if km > 0:
-                bits.append("直线%dkm" % km)
-        days = r.get("days")
-        if days not in (None, "", 0, "0"):
-            bits.append("%s天" % days)
-        bd = (r.get("bd") or "").strip()
-        if bd:
-            bits.append("%s起" % bd)
-        if bits:
-            seg.append("　 " + " · ".join(bits))
+        third = _third_line(r)                             # 第三行：距离 · 租期 · 起租日
+        if third:
+            seg.append("　 " + third)
         blocks.append("\n".join(seg))                      # 一台车 = 一个不可拆块
 
     return _paginate(blocks, head, foot, limit)
@@ -843,6 +943,10 @@ def last_summary():
         "watchRoute": st.get("lastWatchRoute"),             # 上次触发的是哪条专线
         "watchItems": st.get("lastWatchItems") or [],       # 该专线推了哪几台
         "watchAt": st.get("lastWatchAt"),
+        "mailAt": st.get("lastMailAt"),                     # 专线邮件上次发送时间
+        "mailOk": st.get("lastMailOk"),                     # 上次邮件是否成功
+        "mailInfo": st.get("lastMailInfo"),                 # 失败原因 / 收件人
+        "mailReady": _has_mail(load_config()),              # 邮件通道是否已配好
     }
 
 
@@ -1085,6 +1189,19 @@ def push_new(rows, new_ids, log=print):
             notes.append("%s 专线 %d 台" % (name, n))
         else:
             notes.append("%s 专线失败：%s" % (name, info))
+
+        # 邮件：**只跟专线**（常规即时/汇总不发，避免一天几十封）
+        mail_ok = None
+        if _has_mail(cfg):
+            subj = "[顺风车专线] %s 新增 %d 台 · %s" % (
+                name, len(wpairs), time.strftime("%m-%d %H:%M"))
+            body = render_mail(wpairs, "%s 专线 · 新增 %d 台" % (name, len(wpairs)),
+                               cfg.get("mpUrl") or "")
+            mail_ok, mail_info = email_send(cfg, subj, body)
+            st["lastMailAt"] = int(time.time() * 1000)
+            st["lastMailOk"] = bool(mail_ok)
+            st["lastMailInfo"] = mail_info
+            notes.append("邮件%s" % ("已发" if mail_ok else "失败（%s）" % mail_info))
 
     save_state(st)
 

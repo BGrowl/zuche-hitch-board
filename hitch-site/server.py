@@ -385,9 +385,59 @@ class Handler(BaseHTTPRequestHandler):
                     st["distance"] = None
             self._send(200, json.dumps(st, ensure_ascii=False, indent=2),
                        "application/json; charset=utf-8")
+        elif path == "/mailcheck":
+            # 邮件通道自检：TCP 探活 + （带 token 时）真发一封。
+            # 专线提醒出不来时先看这里：out=连不通 / ready=false 没配好 / send.ok=false 被拒发。
+            qs = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            want_send = (qs.get("send") or ["0"])[0] in ("1", "true", "yes")
+            tok = (qs.get("token") or [""])[0]
+            out = {"ready": False}
+            try:
+                cfg = _push.load_config() if _push is not None else {}
+                m = cfg.get("email") if isinstance(cfg.get("email"), dict) else {}
+                out["configured"] = {k: m.get(k) for k in (
+                    "enabled", "smtpHost", "smtpPort", "ssl", "mailFrom", "mailTo")}
+                out["hasPass"] = bool(m.get("mailPass"))
+                out["ready"] = bool(_push is not None and _push._has_mail(cfg))
+                host = str(m.get("smtpHost") or "").strip()
+                port = int(m.get("smtpPort") or 465)
+                if host:
+                    import socket
+                    t0 = time.time()
+                    try:
+                        sk = socket.create_connection((host, port), timeout=10)
+                        banner = b""
+                        try:
+                            sk.settimeout(6)
+                            banner = sk.recv(200)
+                        except Exception:                  # noqa: BLE001
+                            pass
+                        sk.close()
+                        out["probe"] = {
+                            "ok": True, "ms": int((time.time() - t0) * 1000),
+                            "banner": banner[:120].decode("utf-8", "replace").strip()}
+                    except Exception as exc:               # noqa: BLE001
+                        out["probe"] = {
+                            "ok": False, "ms": int((time.time() - t0) * 1000),
+                            "error": "%s: %s" % (type(exc).__name__, exc)}
+                if want_send:
+                    want_tok = str(cfg.get("mailProbeToken") or "")
+                    if not want_tok or tok != want_tok:
+                        out["send"] = {"ok": False, "info": "token 不对，拒绝真发"}
+                    elif not out["ready"]:
+                        out["send"] = {"ok": False, "info": "email 未配好（缺 enabled/host/from/to）"}
+                    else:
+                        ok, info = _push.email_send(
+                            cfg, "[顺风车] 邮件通道自检",
+                            "这是一封自检邮件，收到说明专线提醒可以发到邮箱了。\n\n"
+                            + time.strftime("%Y-%m-%d %H:%M:%S"))
+                        out["send"] = {"ok": bool(ok), "info": info}
+            except Exception as exc:                       # noqa: BLE001
+                out["error"] = "%s: %s" % (type(exc).__name__, exc)
+            self._send(200, json.dumps(out, ensure_ascii=False, indent=2),
+                       "application/json; charset=utf-8")
         else:
             self._send(404, "not found", "text/plain; charset=utf-8")
-
     do_HEAD = do_GET
 
     def log_message(self, fmt, *args):

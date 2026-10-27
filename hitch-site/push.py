@@ -500,19 +500,52 @@ def _mail_cfg(cfg):
     return m if isinstance(m, dict) else {}
 
 
+def _mail_provider(cfg):
+    """邮件怎么发：`smtp`（自己的邮箱 + 授权码）或 `pushplus`（复用 token）。"""
+    p = str(_mail_cfg(cfg).get("provider") or "smtp").strip().lower()
+    return "pushplus" if p in ("pushplus", "push_plus", "pp") else "smtp"
+
+
 def _has_mail(cfg):
     m = _mail_cfg(cfg)
-    return bool(m.get("enabled")
-                and str(m.get("smtpHost") or "").strip()
+    if not m.get("enabled"):
+        return False
+    if _mail_provider(cfg) == "pushplus":
+        return bool(str((cfg or {}).get("token") or "").strip())
+    return bool(str(m.get("smtpHost") or "").strip()
                 and str(m.get("mailFrom") or "").strip()
                 and _as_list(m.get("mailTo")))
+
+
+def pushplus_mail_send(token, title, content, timeout=25):
+    """走 PushPlus 的**邮件渠道**发信（channel=mail），不需要自己的 SMTP 凭据。
+
+    前提：接收方要先在 pushplus 里绑定并验证邮箱（会收到一封验证信，点链接即可）。
+    没绑就发，平台会返回"接收方未配置邮箱"这类错误 —— 别再往 SMTP 上找原因。
+    """
+    tok = str(token or "").strip()
+    if not tok:
+        return False, "未配置 pushplus token"
+    payload = {"token": tok, "title": title, "content": content,
+               "channel": "mail", "template": "txt"}
+    try:
+        j = _post_json(API_PUSHPLUS, payload, timeout=timeout)
+    except urllib.error.HTTPError as e:
+        return False, "HTTP %s：%s" % (e.code, e.read()[:200])
+    except Exception as e:                                # noqa: BLE001
+        return False, "%s: %s" % (type(e).__name__, e)
+    if int(j.get("code") or 0) == 200:
+        return True, "pushplus 邮件渠道已受理"
+    return False, "pushplus 返回 %s：%s" % (j.get("code"), j.get("msg"))
 
 
 def email_send(cfg, subject, body, timeout=20):
     """发一封纯文本邮件。返回 (ok, info)。失败绝不假装成功。"""
     m = _mail_cfg(cfg)
     if not _has_mail(cfg):
-        return False, "未配置 email（smtpHost / mailFrom / mailTo）"
+        return False, "未配置 email（smtp 缺 host/from/to，或 pushplus 缺 token）"
+    if _mail_provider(cfg) == "pushplus":
+        return pushplus_mail_send(cfg.get("token"), subject, body, timeout=timeout)
     host = str(m.get("smtpHost")).strip()
     port = int(m.get("smtpPort") or 465)
     user = str(m.get("mailUser") or m.get("mailFrom")).strip()

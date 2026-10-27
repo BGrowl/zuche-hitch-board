@@ -396,11 +396,16 @@ class Handler(BaseHTTPRequestHandler):
                 cfg = _push.load_config() if _push is not None else {}
                 m = cfg.get("email") if isinstance(cfg.get("email"), dict) else {}
                 out["configured"] = {k: m.get(k) for k in (
-                    "enabled", "smtpHost", "smtpPort", "ssl", "mailFrom", "mailTo")}
+                    "enabled", "provider", "smtpHost", "smtpPort", "ssl",
+                    "mailFrom", "mailTo")}
+                out["provider"] = _push._mail_provider(cfg) if _push is not None else None
                 out["hasPass"] = bool(m.get("mailPass"))
                 out["ready"] = bool(_push is not None and _push._has_mail(cfg))
-                host = str(m.get("smtpHost") or "").strip()
-                port = int(m.get("smtpPort") or 465)
+                if out["provider"] == "pushplus":
+                    host, port = "www.pushplus.plus", 443
+                else:
+                    host = str(m.get("smtpHost") or "").strip()
+                    port = int(m.get("smtpPort") or 465)
                 if host:
                     import socket
                     t0 = time.time()

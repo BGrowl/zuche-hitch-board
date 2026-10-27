@@ -1,18 +1,24 @@
 name: keepalive
 
-# 作用：定时唤醒云沙箱。
-# 背景：托管沙箱「没人访问就休眠」，进程一休眠，server.py 里的 600s 抓取循环
-# 和「每小时汇总推送」都会停。本 workflow 每 10 分钟请求一次 /health，
-# 让沙箱保持热态，推送节奏才接近真正的每 10 分钟。
+# 作用：把云沙箱「按住不放」，让推送真正按 10 分钟走。
 #
-# 注意：GitHub 的 schedule 是 best-effort，高峰期可能延迟 5~20 分钟；
-# 公开仓库的 Actions 分钟数不计量，成本可忽略。
+# 背景一：托管沙箱没人访问就休眠，进程一休眠，server.py 里 600s 的抓取循环
+#         和「每小时汇总推送」都停。所以要有一个外部角色定期请求它。
 #
-# 坑：不要在 run: | 里写正文顶格的 heredoc —— 会提前终止块标量、整个文件解析失败。
+# 背景二（2026-10-27 实测）：GitHub 的 schedule 是 best-effort，`*/10` 被节流得
+#         很厉害 —— 挂了 8 小时只跑了 2 次（22:49Z、01:39Z，间隔 2h49m）。
+#         所以不能靠 cron 提供 10 分钟节奏，改成：
+#         cron 每 6 小时兜底启动一次 → 一个 job 内部循环 ping 35 轮（≈5h50m），
+#         相邻两轮之间 sleep 600。节奏由 job 内部的 sleep 保证，不依赖 cron 精度。
+#
+# 代价：公开仓库不计 Actions 分钟数；job 上限 6 小时，这里设 358 分钟。
+#
+# 坑：不要在 run: | 里写正文顶格的 heredoc —— 会提前终止块标量，整个文件解析失败
+#     （表现为 workflow 列表里有、但 dispatch 报 "does not have workflow_dispatch trigger"）。
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -25,22 +31,22 @@ concurrency:
 jobs:
   ping:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 358
     steps:
-      - name: Wake board (/health)
+      - name: Ping /health every 10 minutes (~5h50m)
         env:
           URL: https://zuche-hitch-board.app.workbuddy.host/health
+          ROUNDS: "35"
+          GAP: "600"
         run: |
           set -u
-          for i in 1 2 3; do
+          echo "start $(date -u '+%Y-%m-%d %H:%M:%SZ') rounds=$ROUNDS gap=${GAP}s"
+          for i in $(seq 1 "$ROUNDS"); do
             code=$(curl -sS -o resp.json -w '%{http_code}' --max-time 60 "$URL" || echo 000)
-            echo "attempt $i -> HTTP $code"
+            echo "[$(date -u '+%m-%d %H:%M:%SZ')] round $i/$ROUNDS -> HTTP $code"
             if [ "$code" = "200" ]; then
-              jq -r '"runs=\(.runs) count=\(.count) ok=\(.ok) new=\(.newCount) push=\(.push.info)"' resp.json
-              jq -c '.distance' resp.json
-              exit 0
+              jq -r '"  runs=\(.runs) count=\(.count) new=\(.newCount) push=\(.push.info)"' resp.json || true
             fi
-            sleep 30
+            if [ "$i" -lt "$ROUNDS" ]; then sleep "$GAP"; fi
           done
-          echo "::error::/health 连续 3 次失败，看板可能已下线"
-          exit 1
+          echo "done $(date -u '+%Y-%m-%d %H:%M:%SZ')"

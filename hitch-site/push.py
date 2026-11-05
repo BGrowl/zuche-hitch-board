@@ -120,6 +120,15 @@ TIER_WECOM_COLOR = {1: "warning", 2: "info", 3: "comment", 4: "comment"}
 # 只要这几种档次的新车才值得打扰用户（4 = 入门，不推）
 DEFAULT_MIN_TIER = 3
 
+# 小时汇总**单次最多发多少台**。企业微信限速 20 条/分钟，一台车约 140 字节，
+# 316 台要拆成 18 条 —— 只要其中一页失败，旧逻辑就"整批不算发完 → 不清空缓冲区
+# → 10 分钟后同一批再发一遍"，实测会连续轰炸用户（2026-11-05 踩过）。
+# 所以一次只发一小批，保证一轮能发完、能推进锚点。
+SUMMARY_BATCH = 40
+
+# 缓冲区上限：攒太多既发不完也发不快，超出就丢最旧的（这些车多半早下架了）
+PENDING_MAX = 200
+
 # 模板消息单个字段太长会被微信截断，这里主动收口
 MP_FIELD_MAX = 220
 MP_ITEMS = 6
@@ -1134,8 +1143,8 @@ def push_new(rows, new_ids, log=print):
             have.add(i)
             round_new.append(r)
             buffered.add(i)
-    if len(pending) > 800:                       # 防无限增长（正常一小时远够）
-        pending = pending[-800:]
+    if len(pending) > PENDING_MAX:               # 封顶，超出丢最旧的（多半早下架了）
+        pending = pending[-PENDING_MAX:]
     st["pendingIds"] = pending
 
     # 非达标（入门）的新增直接记入已见，往后不再参与任何判定
@@ -1178,18 +1187,25 @@ def push_new(rows, new_ids, log=print):
         st["lastSummaryAt"] = last_sum
     due = every > 0 and bool(pending) and (not last_sum or now_ms - last_sum >= every * 1000)
     if due:
-        pairs = _mk_pairs(pending, cfg)
+        # 一次只发一批（从最早攒的开始发），保证这一轮能发完并把锚点推走。
+        batch = pending[:SUMMARY_BATCH]
+        pairs = _mk_pairs(batch, cfg)
         title = "顺风车 · %s汇总 %d 台好车" % (_label_of(every), len(pairs))
         n, info = _deliver(cfg, ch, pairs, title)
         st["lastSummary"] = n
         sent_total += n
-        if n >= len(pairs):
-            st["pendingIds"] = []
-            st["lastSummaryAt"] = now_ms
+        # ⚠️ 无论发没发全都要推进锚点：否则下一轮又判定 due，同一批反复重发。
+        #    发全了 → 清空这批；没发全 → 也只清这一批（宁可丢几条，也不能轰炸）。
+        st["lastSummaryAt"] = now_ms
+        done_ids = {r.get("id") for _, r in pairs}
+        st["pendingIds"] = [r for r in pending if r.get("id") not in done_ids]
+        if n:
             st["lastSummaryItems"] = [_item_brief(t, r) for t, r in pairs]
             notes.append("汇总 %d 台" % n)
-        else:
-            notes.append("汇总失败：%s（保留待补）" % info)
+        if n < len(pairs):
+            notes.append("汇总未发全（%d/%d）：%s" % (n, len(pairs), info))
+        if st["pendingIds"]:
+            notes.append("余 %d 台留到下轮" % len(st["pendingIds"]))
     elif every > 0:
         # 没到点时，顺手记一下下次汇总时间，/health 一眼可见
         if not st.get("lastSummaryAt"):
